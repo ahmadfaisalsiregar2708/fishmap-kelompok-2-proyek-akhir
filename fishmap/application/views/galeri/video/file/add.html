@@ -1,0 +1,51 @@
+<div class="row">
+    <div class="col-xl-11 mx-auto">
+        <div class="card">
+            <div class="card-body"> 
+                <div class="card-title d-flex align-items-center">
+                    <div><i class="bx bx-movie-play me-1 font-22 text-primary"></i>
+                    </div>
+                    <h5 class="mb-0 text-primary">Tambah Video</h5>
+                    <a href="#" onclick="history.back()" class="ml-auto btn btn-outline-secondary btn-sm"><i class="bx bxs-chevron-left-circle"></i> Kembali</a>
+                </div>
+                <hr>
+                <form class="row g-3" method="post" action="{$config->site_url('galeri/video/add_file_process/'|cat:$result.album_id)}" enctype='multipart/form-data'>                    
+                <input type="hidden" name="{$csrf.name|default:''}" value="{$csrf.hash|default:''}" />                                                                                                           
+                <div class="col-md-12">
+                    <label for="formFile" class="form-label">URL Youtube</label>
+                    <div class="row">
+                        <div class="col-lg-6">                                
+                            <input type="url" name="file_url" class="form-control" placeholder="URL Youtube" value="{$result.file_url|default:''}" required>                                
+                        </div>                            
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <label for="" class="form-label">Deskripsi</label>                
+                    <textarea type="text" name="file_desc" class="form-control" id="mytextarea" rows="8">{$result.file_desc|default:''}</textarea>                                                
+                </div> 
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary px-5">Simpan</button>
+                </div>
+            </form> 
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function readImage(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+        
+            reader.onload = function (e) {
+                $('#show_image').attr('src', e.target.result);
+            }
+        
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#image_preview").change(function(){
+    readImage(this);
+    });
+</script>

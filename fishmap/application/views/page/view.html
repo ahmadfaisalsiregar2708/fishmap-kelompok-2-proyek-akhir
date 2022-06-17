@@ -1,0 +1,65 @@
+ <!-- ============================ Page Title Start================================== -->
+ <section class="page-title bg-cover" data-overlay="8">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+
+                <div class="breadcrumbs-wrap">
+                    <h1 class="breadcrumb-title text-light">{$title|default:'-'}</h1>
+                    <nav class="transparent">
+                        <ol class="breadcrumb p-0">
+                            <li class="breadcrumb-item"><a href="{$BASEURL}" class="text-light">Beranda</a></li>                                    
+                            <li class="breadcrumb-item active theme-cl" aria-current="page">{$title|default:'-'}</li>
+                        </ol>
+                    </nav>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ============================ Page Title End ================================== -->
+
+<!-- ============================ article Start ================================== -->
+<section class="min gray">
+    <div class="container">
+        <!-- row Start -->
+        <div class="row">
+
+            <!-- Blog Detail -->
+            <div class="col-lg-8 col-md-12 col-sm-12 col-12">
+                <div class="article_detail_wrapss single_article_wrap format-standard">
+                    <div class="article_body_wrap">
+
+                        <h2 class="post-title mb-3">{$post.post_title|default:'-'}</h2>
+                        <div class="article_top_info mb-3">
+                            <ul class="article_middle_info">
+                                <li><a href="#"><span class="icons"><i class="ti-time"></i></span>Pemutakhiran: {$dtm->get_full_date($post.updated_at|default:$post.created_at)}</a></li>
+                                <li><a href="#"><span class="icons"><i class="ti-eye"></i></span>{$post.counter|default:'1'}</a></li>
+                            </ul>
+                        </div>
+                        <div class="post-content">
+                            {$post.post_content|htmlspecialchars_decode|default:'Tidak ada konten ditampilkan.'}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Single blog Grid -->
+            <div class="col-lg-4 col-md-12 col-sm-12 col-12">
+                <div class="single_widgets widget_category stick_top">
+                    <h4 class="title">{$_menu.title|default:''}</h4>
+                    <ul>                                                
+                        {foreach from=$_submenu key=a item=b}                                                                            
+                            <li class="{if {$config->base_url($b.url)} eq (strtolower(substr($smarty.server.SERVER_PROTOCOL, 0, strpos($smarty.server.SERVER_PROTOCOL, '/'))))|cat:'://'|cat:$smarty.server.HTTP_HOST:$smarty.server.REQUEST_URI}active{/if}"><a href="{$config->base_url($b.url)}">{$b.title|default:''}</a></li>
+                        {/foreach}
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        <!-- /row -->
+
+    </div>
+</section>

@@ -1,0 +1,97 @@
+<style type="text/css">
+    th, td{ text-align:center; }
+</style>
+
+<!-- ============================ Page Title Start================================== -->
+<section class="page-title bg-cover" data-overlay="8">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+
+                <div class="breadcrumbs-wrap">
+                    <h1 class="breadcrumb-title text-light">{$title|default:'Data'}</h1>
+                    <nav class="transparent">
+                        <ol class="breadcrumb p-0">
+                            <li class="breadcrumb-item"><a href="{$BASEURL}" class="text-light">Beranda</a></li>
+                            <li class="breadcrumb-item active theme-cl" aria-current="page">{$title|default:'Data'}</li>
+                        </ol>
+                    </nav>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ============================ Page Title End ================================== -->
+
+<!-- ============================ article Start ================================== -->
+<section class="min gray">
+    <div class="container">
+        <!-- row Start -->
+        <div class="row">
+            <!-- Blog Detail -->
+            <div class="col-lg-8 col-md-12 col-sm-12 col-12">
+
+                <div class="article_detail_wrapss single_article_wrap format-standard">
+                    <div class="article_body_wrap">
+
+                        <div class="d-flex align-items-center">
+                            <div>
+                                <h4 class="mb-0">Kategori Data</h4>
+                            </div>
+                        </div>
+                        <div class="table-responsive mt-3">
+                            <table class="table table-striped table-hover table-sm mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Judul</th>
+                                        <th>Jumlah</th>
+                                        <th>Terakhir ditambahkan</th>
+                                        <th>Lihat Data</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {foreach from=$doc key=a item=b}
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="font-weight-bold text-info"><a href="{$config->base_url('data-detail/'|cat:$b.cat_id)}">{$b.cat_title|default:'-'}</a></div>
+                                            </div>
+                                        </td>
+                                        <td>{$b.jumlah|default:'0'}</td>
+                                        <td>{$dtm->get_short_date_indo($b.last_update|default:'0000-00-00')}</td>
+                                        <td><a href="{$config->base_url('data-detail/'|cat:$b.cat_id)}"><i class="fa fa-ellipsis-h font-24"></i></a>
+                                        </td>
+                                    </tr>
+                                    {foreachelse}
+                                    <tr>
+                                        <td colspan="20">Tidak ada data.</td>
+                                    </tr>
+                                    {/foreach}
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Single blog Grid -->
+            <div class="col-lg-4 col-md-12 col-sm-12 col-12">
+                <div class="single_widgets widget_category stick_top">
+                    <h4 class="title">{$_menu.title|default:''}</h4>
+                    <ul>
+                        {foreach from=$_submenu key=a item=b}                        
+                        <li class="{if {$config->base_url($b.url)} eq ($config->base_url('data'))}active{/if}"><a href="{$config->base_url($b.url)}">{$b.title|default:''}</a></li>
+                        {/foreach}
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        <!-- /row -->
+
+    </div>
+</section>
+

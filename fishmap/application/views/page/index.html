@@ -1,0 +1,340 @@
+<style>
+    .w3-display-container{
+        position:relative;
+    }
+    .w3-text-white,.w3-hover-text-white:hover{
+        color:#fff!important;
+    }
+    .w3-display-bottomleft {
+        position:absolute;
+        left:0;
+        bottom:0;
+    }
+    .w3-container,.w3-panel{
+        padding:0.01em 16px;
+    }
+    .w3-container:after,.w3-container:before{
+        content:"";
+        display:table;
+        clear:both;
+    }
+    .w3-hover-grayscale:hover{
+        filter:grayscale(60%);
+        -webkit-transform: scale(1.08);
+        transform: scale(1.08);
+    }
+    .w3-hover-map:hover{
+        -webkit-transform: scale(1.08);
+        transform: scale(1.08);
+    }
+</style>
+<!-- ============================ Swiper  Start==================== -->
+<div class="swiper">
+    <!-- Slider main container -->
+    <!-- Progressbar -->
+    <!-- <div class="swiper-progress-bar">
+        <span class="slide_progress-bar"></span>
+    </div> -->
+    <div class="swiper-container">
+        <!-- Additional required wrapper -->
+        <div class="swiper-wrapper">
+            {foreach from=$slide key=a item=b}
+            <!-- Slides -->                    
+            <div class="swiper-slide">
+                <!-- Load image -->  
+                <a href="{$b.out_url}">
+                    <img data-src="{$BASEURL}{$b.slide_img|default:''}" class="swiper-lazy"/>                                                          
+                </a>                                                      
+                <!-- Preloader image -->
+                <div class="swiper-lazy-preloader swiper-lazy-preloader-black"></div>
+            </div>                                    
+            {/foreach}
+        </div>
+    </div>
+
+    <!-- If we need navigation buttons -->
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+
+</div>
+<!-- ============================ Swiper  End==================== -->
+
+<!-- ============================ Our Products Start ================================== -->
+<section class="p-0">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="crp_box ovr_top">
+                    <div class="row align-items-center m-0 mobile-scroll">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            <div class="part_rcp">
+                                <div class="row product-link">
+                                    {foreach from=$layanan key=a item=b}
+                                    <div class="col-sm-6 col-md-2 mb-sm-3">
+                                        <a href="{$b.url|default:'#'}" class="dro_140" target="blank">
+                                            <div class="dro_141 icon"><img src="{$BASEURL}{$b.icon|default:''}" alt="{$b.title|default:''}" /></div>
+                                            <div class="dro_142">
+                                                <h6>{$b.title|default:''}</h6>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    {/foreach}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ============================ Our Products End ================================== -->
+<!-- ============================ Predict Start ================================== -->
+<section class="min">
+      <div class="container">
+          
+            <div class="row left-content-center">
+                <div class="col-lg-7 col-md-8">
+                    <div class="sec-heading center">
+                        <h2>Peta <a style="color:#137e6d;">Prediksi</a></h2>
+                    </div>
+                </div>
+            </div>
+          
+            <!-- row Start -->
+            <div class="row">
+
+              <!-- Blog Detail -->
+              <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+              <div class="row justify-content-center">
+                  
+                  <!-- Single Grid -->
+                  <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                      <div class="crs_lt_2">
+                          <div class="row">
+                              <div class="col-md-6">
+                                  <div class="upt-address">
+                                      <h4><a href="http://ahmadfaisalsiregar.skom.id/prediksi">Peta Prediksi</a></h4>
+                                      <ul>
+                                          <li>
+                                              Peta Prediksi merupakan fitur utama dari aplikasi Fishmap. Fitur ini berteknologi Artificial Intelligence yang dapat mempermudah nelayan mendapatkan informasi mengenai wilayah potensial penangkapan ikan di perairan Teluk Tapian Nauli. 
+                                          </li>
+                                      </ul>
+                                      <ul>
+                                          <li>
+                                              <u><a href="http://ahmadfaisalsiregar.skom.id/prediksi"><i>Lihat peta prediksi >></i></a></u>
+                                          </li>
+                                      </ul>
+                                  </div>
+                                    
+                              </div>
+                              <div class="col-md-6">
+                                    <a href="http://ahmadfaisalsiregar.skom.id/prediksi">
+                                        <img src="/resource/doc/images/peta.png" class="w3-hover-map" width="100%" height="250" style="border:0;" /> 
+                                    </a>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+      </div>
+      <!-- /row -->
+
+    </div>
+</section>
+<div class="clearfix"></div>
+<!-- ============================ Predict End ================================== -->
+<section class="min gray">
+    <div class="container">
+
+        <div class="row justify-content-center">
+            <div class="col-lg-7 col-md-8">
+                <div class="sec-heading center">
+                    <h2>Berita <span class="theme-cl">Terbaru</span></h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            {foreach from=$berita item=b}
+            <!-- Single Item -->
+            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">                
+                <div class="blg_grid_box">
+                    <div class="blg_grid_thumb">
+                        <a href="{$config->base_url('berita-detail/'|cat:$b.post_id:'/':preg_replace('/[^a-zA-Z0-9-]/i', '', strtolower(str_replace(' ', '-', $b.post_title))))}">
+                            {if $b.post_image|default:'' != null}
+                                <div class="w3-display-container w3-text-white">
+                                    <img src="{$BASEURL|cat:$b.post_image|default:''}" class="img-fluid w3-hover-grayscale" alt="{$b.post_title|default:'-'}" />                                    
+                                </div>
+                            {else}
+                                <div class="w3-display-container w3-text-white">
+                                    <img src="{$BASEURL|cat:('resource/themes/default/img/no-image-available.png')}" class="img-fluid w3-hover-grayscale" alt="" />                                    
+                                </div>
+                            {/if}
+                        </a>
+                    </div>
+                    <div class="blg_grid_caption">
+                        <div class="blg_tag"><span>BERITA</span></div>
+                        <div class="blg_title">
+                            <h4><a href="{$config->base_url('berita-detail/'|cat:$b.post_id:'/':preg_replace('/[^a-zA-Z0-9-]/i', '', strtolower(str_replace(' ', '-', $b.post_title))))}" title="{$b.post_title|default:''}">{$b.post_title|default:''}</a></h4>
+                        </div>
+                        <div class="blg_desc">
+                            <p>{$b.post_content|default:''}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="crs_grid_foot">
+                        <div class="crs_flex">                            
+                            <div class="crs_fl_last">
+                                <div class="foot_list_info">
+                                    <ul>
+                                        <li>
+                                            <div class="elsio_ic"><i class="fa fa-eye text-success"></i></div>
+                                            <div class="elsio_tx">{$b.counter|default:''}</div>
+                                        </li>
+                                        <li>
+                                            <div class="elsio_ic"><i class="fa fa-clock text-warning"></i></div>
+                                            <div class="elsio_tx">{$dtm->get_short_month_indo($b.post_date|default:'0000-00-00')}</div>                                                
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/foreach}
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-7 col-md-8 mt-2">
+                <div class="text-center"><a href="{$config->base_url('berita')}" class="btn btn-md theme-bg-light theme-cl">Lihat semua berita</a></div>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="clearfix"></div>
+<!-- ============================ News End ================================== -->
+<!-- ============================ Article Start ================================== -->
+<section class="min">
+
+    <div class="container">
+
+        <div class="row justify-content-center">
+            <div class="col-lg-7 col-md-8">
+                <div class="sec-heading center">
+                    <h2>Artikel <a style="color:#8bc34a;">Terbaru</a></h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <div class="article-items">
+                    
+                    {foreach from=$artikel item=b}
+                    <!-- Single Item -->
+                    <div class="lios_item">
+                        <div class="blg_grid_box horizontal">
+                            <div class="row" style="height: 125px;">
+                                <div class="col-md-4 p-0">
+                                    <div class="blg_grid_thumb">
+                                        <a href="{$config->base_url('artikel-detail/'|cat:$b.post_id:'/':preg_replace('/[^a-zA-Z0-9-]/i', '', strtolower(str_replace(' ', '-', $b.post_title))))}">
+                                            {if $b.post_image|default:'' != null}
+                                                <img src="{$BASEURL|cat:$b.post_image|default:''}" class="img-fluid" alt="{$b.post_title|default:'-'}" />
+                                            {else}
+                                                <img src="{$BASEURL|cat:('resource/themes/default/img/no-image-available.png')}" class="img-fluid" alt="" />
+                                            {/if}
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-md-8 p-0">
+                                    <div class="blg_grid_caption" style="padding-top: 10px;">
+                                        <div class="blg_tag green"><span>Artikel</span></div>                                                                                
+                                        <div style="font-size: 14px;"><i class="fa fa-clock text-warning"></i>&nbsp;{$dtm->get_short_month_indo($b.post_date|default:'0000-00-00')}</div>                                        
+                                        <div class="blg_title">
+                                            <h4><a href="{$config->base_url('artikel-detail/'|cat:$b.post_id:'/':preg_replace('/[^a-zA-Z0-9-]/i', '', strtolower(str_replace(' ', '-', $b.post_title))))}" title="{$b.post_title|default:''}">{$b.post_title|default:''}</a></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                           
+                        </div>
+                    </div>
+                    {/foreach}
+
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-7 col-md-8 mt-2">
+                <div class="text-center"><a href="{$config->base_url('artikel')}" class="btn btn-md" style="color:#8bc34a; background: rgba(139, 195, 74, 0.11);">Lihat semua artikel</a></div>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="clearfix"></div>
+<!-- ============================ Article End ================================== -->
+
+<!-- ============================ Person Start ================================== -->
+<section class="min gray"> 
+<!--<section class="min">-->
+
+    <div class="container">
+
+        <div class="row justify-content-center">
+            <div class="col-lg-7 col-md-10 text-center">
+                <div class="sec-heading center mb-4">
+                    <h2>Tim <a style="color:#e23a31;">Kami</a></h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">                                        
+                <div class="tutor-slide">
+                    {foreach from=$tim item=b}
+                    <!-- Single Item -->
+                    <div class="lios_item">
+                        <div class="crs_trt_grid shadow_none brd">
+                            <div class="crs_trt_thumb">
+                                {if $b.post_image|default:'' != null}
+                                    <img src="{$BASEURL|cat:$b.post_image|default:''}" class="img-fluid" alt="{$b.post_title|default:'-'}" />
+                                {else}
+                                    <img src="{$BASEURL|cat:('resource/themes/default/img/no-image-available.png')}" class="img-fluid" alt="" />
+                                {/if}                                                             
+                            </div>
+                            <div class="crs_trt_caption large">
+                                <div class="instructor_tag red"><span>{$b.profile_penulis|default:''}</span></div>
+                                <div class="instructor_title">
+                                    <h6>{$b.post_title|default:''}</h6>                                            
+                                </div>                                        
+                            </div>                                    
+                            <div class="crs_grid_foot">                                        
+                                <div class="crs_flex">
+                                    <div class="crs_fl_first">
+                                        <div class="crs_tutor" onClick="window.open('{$b.post_link|default:'#'}','_newtab');">                                                
+                                            <div class="crs_tutor_thumb">                                                
+                                                <img src="{$BASEURL|cat:$b.photo_penulis|default:''}" class="img-fluid circle" alt="{$b.name|default:''}" title="{$b.name|default:''}"/>                                                
+                                            </div>                                                    
+                                            <span class="author"><b>{$b.name_penulis|ucfirst|default:'-'}</b><p>{$b.post_content|default:''}</p></span>
+                                        </div>
+                                    </div>     
+                                </div>
+                            </div>                               
+                        </div>
+                    </div>
+                    {/foreach}
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+<!-- ============================ Person END ================================== -->
+
+ 

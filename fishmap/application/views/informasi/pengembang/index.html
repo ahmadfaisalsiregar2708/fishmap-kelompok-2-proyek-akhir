@@ -1,0 +1,99 @@
+<div class="row">
+    <div class="col-xl-11 mx-auto">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title d-flex align-items-center">
+                    <div><i class="bx bxs-info-circle me-1 font-22 text-primary"></i>
+                    </div>
+                    <h5 class="mb-0 text-primary">Daftar pengembang</h5>                    
+                    <a href="{$config->site_url('informasi/pengembang/add')}" class="btn btn-outline-primary ms-2">Tambah Baru</a>
+                </div>
+                <hr />                
+                <div class="card-search mb-3">                                                            
+                    <form class="form-group row" action="{$config->site_url('informasi/pengembang/search_process')}" method="post">                                           
+                        <input type="hidden" name="{$csrf.name|default:''}" value="{$csrf.hash|default:''}">                                             
+                        <div class="col-md-3">                            
+                            <input type="text" name="post_title" value="{$search.post_title|default:''}" class="form-control" placeholder="Judul pengembang">
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" name="post_date" value="{$result.post_date|default:''}" id="datepicker" class="form-control" autocomplete="off" placeholder="Tahun"> 
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-outline-info" type="submit" name="save" value="Cari">Cari</button>
+                        </div>
+                    </form>                        
+                </div>                                            
+                <div class="page-breadcrumb d-block d-sm-flex align-items-center mb-1">
+                    <p><strong>{$pagination.start|default:'0'} - {$pagination.end|default:'0'}</strong> dari <strong>{$pagination.total|default:'0'}</strong> Data</p>                                                            
+                    <nav class="ms-auto" aria-label="Page navigation example">
+                        <ul class="pagination">                                                        
+                            {$pagination.data|default:''}
+                        </ul>
+                    </nav>
+                </div>
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th width="50%" scope="col" class="text-left">Judul</th>
+                                <th width="20%" scope="col" class="text-left">Penulis</th>
+                                <th width="20%" scope="col" class="text-left">Tanggal</th>
+                                <th width="10%" scope="col" class="text-left">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {foreach from=$rs_id key=no item=result}
+                            <tr>
+                                <td scope="row" class="text-bold">
+                                    {if $result.post_status eq 'publish'}
+                                        <a href="{$config->site_url('informasi/pengembang/edit/'|cat:$result.post_id|default:'')}">{$result.post_title|default:''}</a>
+                                    {elseif $result.post_status eq 'draft'}
+                                        <a href="#">{$result.post_title|default:''}</a>
+                                    {/if}
+                                </td> 
+                                <td>{$result.post_author|default:''}</td>
+                                <td>
+                                    {if $result.post_status eq 'publish'}
+                                        <div class="badge rounded-pill text-success bg-light-success p-2 text-uppercase px-2"><i class="bx bxs-circle me-1"></i>Diterbitkan</div><br />
+                                    {elseif $result.post_status eq 'draft'}
+                                        <div class="badge rounded-pill text-warning bg-light-warning p-2 text-uppercase px-2"><i class="bx bxs-circle me-1"></i>Draf</div><br />
+                                    {/if}
+                                    <span class="publish-date">{strftime("%d %B %Y", strtotime($result.post_date|date_format:"%y-%m-%d"|default:''))} pada {date('H:i', strtotime($result.post_date))}</span>                                                                        
+                                </td>
+                                <td>
+                                    <div class="d-flex order-actions">
+                                        <a href="{$config->site_url('informasi/pengembang/edit/'|cat:$result.post_id)}" class="edit"><i class="bx bx-edit"></i></a>
+                                        <a href="{$config->site_url('informasi/pengembang/delete_process/'|cat:$result.post_id)}" onclick="return(confirm('Anda yakin akan menghapus data ini?'))" class="delete ms-1"><i class="bx bx-trash"></i></a>
+                                        <a href="{$config->base_url('pengembang-detail/'|cat:$result.post_id:'/':preg_replace('/[^a-zA-Z0-9-]/i', '', strtolower(str_replace(' ', '-', $result.post_title))))}" class="view ms-1" target="_blank"><i class="lni lni-eye"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {foreachelse}
+                            <tr>
+                                <td colspan="10">Data tidak ditemukan.</td>
+                            </tr>
+                            {/foreach}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="page-breadcrumb d-block d-sm-flex align-items-center mt-3">
+                    <p><strong>{$pagination.start|default:'0'} - {$pagination.end|default:'0'}</strong> dari <strong>{$pagination.total|default:'0'}</strong> Data</p>
+                    <nav class="ms-auto" aria-label="Page navigation example">
+                        <ul class="pagination">
+                            {$pagination.data|default:''}
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#datepicker").datepicker({
+    format: "yyyy",
+    viewMode: "years", 
+    minViewMode: "years",
+    autoclose:true
+    });    
+</script>

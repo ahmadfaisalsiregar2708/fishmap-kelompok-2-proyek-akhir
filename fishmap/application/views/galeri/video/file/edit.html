@@ -1,0 +1,42 @@
+<div class="row">
+    <div class="col-xl-11 mx-auto">
+        <div class="card">
+            <div class="card-body"> 
+                <div class="card-title d-flex align-items-center">
+                    <div><i class="bx bx-movie-play me-1 font-22 text-primary"></i>
+                    </div>
+                    <h5 class="mb-0 text-primary">Edit Video</h5>
+                    <a href="#" onclick="history.back()" class="ml-auto btn btn-outline-secondary btn-sm"><i class="bx bxs-chevron-left-circle"></i> Kembali</a>
+                </div>
+                <hr>
+                <form class="row g-3" method="post" action="{$config->site_url('galeri/video/edit_file_process')}"
+                    enctype='multipart/form-data'>
+                    <input type="hidden" name="{$csrf.name|default:''}" value="{$csrf.hash|default:''}" />
+                    <input type="hidden" name="file_id" value="{$result.file_id|default:''}">
+                    <div class="col-md-12">
+                        <label for="" class="form-label">Deskripsi</label>                
+                        <textarea type="text" name="file_desc" class="form-control" id="mytextarea" rows="8">{$result.file_desc|default:''}</textarea>                                                
+                    </div>                                 
+                    <div class="col-md-12">
+                        <label for="formFile" class="form-label">URL Youtube</label>
+                        <div class="row">
+                            <div class="col-lg-6"> 
+                                <input type="url" name="file_url" class="form-control" value="{$result.file_url|default:''}">                                                                                               
+                            </div>                            
+                        </div>
+                    </div>    
+                    <div class="col-12">
+                        <div class="row mt-4">
+                            <div class="col-8">
+                                <button type="submit" class="btn btn-primary px-5">Perbarui</button>
+                            </div>   
+                            <div class="col-4 d-flex justify-content-end">
+                                <a href="{$config->site_url('galeri/video/delete_file_process/'|cat:$result.file_id|cat:'/'|cat:path)}" onclick="return(confirm('Anda yakin akan menghapus data ini?'))" class="btn btn-outline-danger px-5">Hapus</a>
+                            </div>   
+                        </div> 
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

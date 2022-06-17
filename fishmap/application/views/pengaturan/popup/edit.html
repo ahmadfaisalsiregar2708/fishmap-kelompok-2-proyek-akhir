@@ -1,0 +1,137 @@
+<!-- Start daftar popup -->
+<div class="row">
+    <div class="col-xl-11 mx-auto">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title d-flex align-items-center">
+                    <div><i class="bx bx-slider me-1 font-22 text-primary"></i>
+                    </div>
+                    <h5 class="mb-0 text-primary">Edit Popup</h5>
+                    <a href="{$config->site_url('pengaturan/popup')}" class="ml-auto btn btn-outline-secondary btn-sm"><i class="bx bxs-chevron-left-circle"></i> Kembali</a>
+                </div>
+                <hr>
+                <form class="row g-3" action="{$config->site_url('pengaturan/popup/edit_process')}" method="post" enctype='multipart/form-data'>
+                    <input type="hidden" name="{$csrf.name|default:''}" value="{$csrf.hash|default:''}" />
+                    <input type="hidden" name="id" value="{$result.id|default:''}">                                              
+                    <div class="col-md-12">
+                        <label for="" class="form-label">Nama</label>
+                        <div class="row">
+                            <div class="col-lg-6"> 
+                                <input type="text" name="title" value="{$result.title|default:''}" class="form-control" placeholder="Nama" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="" class="fomr-label">Popup Aktif</label>
+                        <div class="input-group">
+                            <select name="is_active" id="inputState" class="form-select">
+                                <option value="" selected disabled>--Pilih--</option>
+                                <option value="1" {if {$result.is_active|default:''} eq "1"
+                                    }selected="selected" {/if}>Aktif</option>
+                                <option value="0" {if {$result.is_active|default:''} eq "0"
+                                    }selected="selected" {/if}>Non Aktif</option>                                    
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <label for="formFile" class="form-label">Gambar</label>
+                        <div class="row">
+                            <div class="col-lg-6">                                
+                                <input type="file" name="img" value="{$result.img|default:''}"
+                                class="form-control" id="image_preview" accept=".jpg, .png, image/jpeg, image/png">                                
+                            </div>                            
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <img src="{base_url($result.img|default:'')}" alt=" " id="show_image" height="200px;">                                
+                    </div>                     
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary px-5">Perbarui</button>
+                    </div>
+                </form>
+            </div>            
+        </div>
+    </div>
+</div>
+<!-- End daftar popup -->
+
+<!-- Start daftar file -->
+<div class="row">
+    <div class="col-xl-11 mx-auto">
+        <div class="card">
+            <div class="card-body" id="ambil">
+                <div class="card-title d-flex align-items-center">
+                    <div><i class="bx bxs-info-circle me-1 font-22 text-primary"></i>
+                    </div>
+                    <h5 class="mb-0 text-primary">Daftar Layanan</h5>
+                    <a href="{$config->site_url('halaman/data/add_file/'|cat:$result.id)}" class="btn btn-outline-primary ms-2">Tambah Layanan</a>
+                </div>
+                <hr />
+                <div class="card-search mb-3">
+                 <form action="{$config->site_url('halaman/data/search_file_process')}" method="post">
+                  <input type="hidden" name="{$csrf.name|default:''}" value="{$csrf.hash|default:''}" />
+                  <div class="form-group row">
+                    <div class="col-md-3">
+                      <input type="text" name="doc_title" value="{$search.doc_title|default:''}" class="form-control" placeholder="Judul File"/>  
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-outline-info" type="submit" name="save" value="Cari">Cari</button>
+                    </div>
+                  </div>
+                 </form>
+                </div>
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th width="20%" scope="col" class="text-left">Judul</th>
+                                <th width="30%" scope="col" class="text-left">Photo</th>
+                                <th width="10%" scope="col" class="text-left">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          {foreach from=$rs_file item=result}
+                            <tr>
+                                <td scope="row" class="text-bold"><a href="#">{$result.name|default:''}</a></td>
+                                <td>
+                                    <img src="{base_url($result.photo|default:'')}" alt="popup" width="70px">
+                                </td>
+                                <td>
+                                    <div class="d-flex order-actions">
+                                        <a href="{$config->site_url('halaman/data/edit_file/'|cat:$result.id)}" class="edit ms-1"><i class="bx bx-edit"></i></a>
+                                        <a href="{$config->site_url('halaman/data/delete_file_process/'|cat:$result.id)}" onclick="return(confirm('Anda yakin akan menghapus data ini?'))" class="delete ms-1"><i class="bx bx-trash"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                          {foreachelse}
+                          <tr>
+                              <td colspan="10">Data not found.</td>
+                          </tr>
+                          {/foreach}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+<!-- End daftar file -->
+
+<script src="https://cdn.tiny.cloud/1/vdqx2klew412up5bcbpwivg1th6nrh3murc6maz8bukgos4v/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+    function readImage(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+        
+            reader.onload = function (e) {
+                $('#show_image').attr('src', e.target.result);
+            }
+        
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#image_preview").change(function(){
+    readImage(this);
+    });
+</script>

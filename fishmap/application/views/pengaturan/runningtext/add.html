@@ -1,0 +1,33 @@
+<div class="row">
+    <div class="col-xl-11 mx-auto">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title d-flex align-items-center">
+                    <div><i class="bx bx-slider me-1 font-22 text-primary"></i></div>
+                    <h5 class="mb-0 text-primary">Tambah Teks Berjalan</h5>
+                    <a href="{$config->site_url('pengaturan/runningtext')}" class="ml-auto btn btn-outline-secondary btn-sm"><i class="bx bxs-chevron-left-circle"></i> Kembali</a>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-xl-8">
+                        <form class="row g-3" method="post" action="{$config->site_url('pengaturan/runningtext/add_process')}" enctype='multipart/form-data'>
+                            <input type="hidden" name="{$csrf.name|default:''}" value="{$csrf.hash|default:''}" />
+                            <div class="col-md-12">
+                                <label for="" class="form-label">Text</label>
+                                <textarea type="text" placeholder="Text isi" name="running_text" class="form-control" rows="4">{$result.running_text|default:''}</textarea>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="" class="form-label">Link Tautan</label>
+                                <input type="text" name="alamat_tautan" value="{$result.alamat_tautan|default:''}"
+                            class="form-control" placeholder="https://.." required>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary px-5">Simpan</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="description" content="{$site.meta_desc|default:''}">
+  	<meta name="keywords" content="{$site.meta_keyword|default:''}">
+  	<meta name="author" content="admin">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!--favicon-->
+	<link rel="icon" href="{$pref.site_icon|default:'#'}" type="image/png" />
+    <!-- themes style -->
+    {$LOAD_STYLE}
+	<link rel="stylesheet" type="text/css" href="{$THEMESPATH}" media="screen" />
+	<title>{$page.nav_title|default:'Home'} - {$pref.site_title|default:'Beranda'}</title>
+</head>
+
+<body>
+    <!-- load javascript -->
+    {$LOAD_JAVASCRIPT}
+	<!--wrapper-->
+	<div class="wrapper">
+		<!--sidebar wrapper -->
+		<div class="sidebar-wrapper" data-simplebar="true">
+			<div class="sidebar-header">
+				<div>
+					<img src="{base_url('resource/doc/images/logo-dashboard.png')}" class="logo-icon" alt="logo icon">					
+				</div>
+				<div>					
+					<h4 class="logo-text">FISHMAP</h4>
+				</div>
+				<div class="toggle-icon ms-auto"><i class='bx bx-arrow-to-left'></i>
+				</div>
+			</div>
+			<!--navigation-->
+			{include file="$template_sidebar"}
+			<!--end navigation-->
+		</div>
+		<!--end sidebar wrapper -->
+		<!--start header -->
+		<header>
+			<div class="topbar d-flex align-items-center">
+				<nav class="navbar navbar-expand">	
+					<div class="mobile-toggle-menu"><i class='bx bx-menu'></i>
+					</div>
+					<div class="top-menu ms-auto">
+						<ul class="navbar-nav align-items-center">							
+							<li class="nav-item dropdown dropdown-large">
+								<a class="nav-link position-relative nav-visit d-flex align-items-center" href="{$BASEURL}" target=”_blank”><i class='bx bx-globe'></i><span class="label ms-1">Lihat situs</span></a>								
+							</li>
+						</ul>
+					</div>
+					<div class="user-box dropdown">
+						<a class="d-flex align-items-center nav-link dropdown-toggle dropdown-toggle-nocaret" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							<img src="{$BASEURL|cat:$com_user.user_photo|default:'https://creatantech.com/demos/codervent/fishmap/vertical/public/assets/images/avatars/avatar-2.png'}" class="user-img" alt="user avatar">
+							<div class="user-info ps-3">
+								<p class="user-name mb-0">{$full_nm.name|ucfirst|default:$com_user.user_name}</p>
+								<p class="designattion mb-0">{$com_user.role_nm|default:''}</p>								
+							</div>
+						</a>
+						<ul class="dropdown-menu dropdown-menu-end">
+							<li><a class="dropdown-item" href="{$config->site_url('pengaturan/profil')}"><i class="bx bx-user"></i><span>Profil</span></a>
+							</li>
+							<li>
+								<div class="dropdown-divider mb-0"></div>
+							</li>
+							<li><a class="dropdown-item" href="{$config->site_url('/login/operatorlogin/logout_process')}"><i class='bx bx-log-out-circle'></i><span>Keluar</span></a>
+							</li>
+						</ul>
+					</div>
+				</nav>
+			</div>
+		</header>
+		<!--end header -->
+		<!--start page wrapper -->
+		<div class="page-wrapper">
+			<div class="page-content">
+				<!--breadcrumb-->
+				<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+					<div class="breadcrumb-title pe-3">{$_menu|default:'Menu'}</div>
+					<div class="ps-3">
+						<nav aria-label="breadcrumb">
+							<ol class="breadcrumb mb-0 p-0">
+								<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+								</li>
+								{$_breadcrumb|default:''}
+							</ol>
+						</nav>
+					</div>
+				</div>
+				<!--end breadcrumb-->
+			</div>
+			
+			<div class="col col-lg-11 mx-auto">
+				{include file="base/templates/notification.html"}
+			</div>
+				{include file="$template_content"}
+		</div>
+		<!--end page wrapper -->
+		<!--start overlay-->
+		<div class="overlay toggle-icon"></div>
+		<!--end overlay-->
+		<!--Start Back To Top Button--> <a href="javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
+		<!--End Back To Top Button-->
+		<footer class="page-footer">
+			<p class="mb-0">{$pref.site_footer|default:'Copyright TRUE'}</p>
+		</footer>
+	</div>
+	<!--end wrapper-->
+</body>
+
+</html>

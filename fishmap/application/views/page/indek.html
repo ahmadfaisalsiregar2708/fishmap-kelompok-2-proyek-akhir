@@ -1,0 +1,103 @@
+<!-- ============================ Page Title Start================================== -->
+<section class="page-title bg-cover" data-overlay="8">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+
+                <div class="breadcrumbs-wrap">
+                    <h1 class="breadcrumb-title text-light">{$title|default:''} Terbaru</h1>
+                    <nav class="transparent">
+                        <ol class="breadcrumb p-0">
+                            <li class="breadcrumb-item"><a href="{$BASEURL}" class="text-light">Beranda</a></li>
+                            <li class="breadcrumb-item active theme-cl" aria-current="page">{$title|default:''}</li>
+                        </ol>
+                    </nav>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ============================ Page Title End ================================== -->
+
+<!-- ============================ article Start ================================== -->
+<section class="min">
+    <div class="container">
+
+        <div class="row justify-content-center">
+            {foreach from=$result key=a item=b}
+            {$targ = ''}
+            {if $b.post_category eq 'berita'}
+                {$targ = 'berita-detail'}
+            {else if $b.post_category eq 'artikel'}
+                {$targ = 'artikel-detail'}                        
+            {else}
+            {$targ = 'index'}
+            {/if}            
+            {$urle = $BASEURL|cat:$targ:'/':$b.post_id:'/':preg_replace('/[^a-zA-Z0-9-]/i', '', (strtolower(str_replace(' ', '-', $b.post_title))))}
+            <!-- Single Item -->            
+            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
+                <div class="blg_grid_box">
+                    <div class="blg_grid_thumb">
+                        <a href="{$urle}">                                                                                    
+                            {if $b.post_image|default:'' != null}
+                                <img src="{$BASEURL|cat:$b.post_image|default:''}" class="img-fluid" alt="{$b.post_title|default:''}" />                                
+                            {else}
+                                <img src="{$BASEURL|cat:('resource/themes/default/img/no-image-available.png')}" class="img-fluid" alt="" />
+                            {/if}
+                        </a>                        
+                    </div>
+                    <div class="blg_grid_caption">
+                        <div class="blg_tag"><span>{$title|Ucfirst|default:'Konten'}</span></div>
+                        <div class="blg_title">
+                            <h4><a href="{$urle}" title="{$b.post_title|default:'-'}">{$b.post_title|substr:0:40|cat:'...'|default:'-'}</a></h4>
+                        </div>
+                        <div class="blg_desc">
+                            <p>{$b.post_content|default:'...'} </p>
+                        </div>
+                    </div>
+                    <div class="crs_grid_foot">
+                        <div class="crs_flex">
+                            <div class="crs_fl_first">
+                                <div class="crs_tutor">
+                                    <div class="crs_tutor_thumb">
+                                        <a href="#">
+                                            <img src="{$BASEURL|cat:$b.user_photo|default:''}" class="img-fluid circle" alt="{$b.name|default:''}" title="{$b.name|default:''}"/>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="crs_fl_last">
+                                <div class="foot_list_info">
+                                    <ul>
+                                        <li>
+                                            <div class="elsio_ic"><i class="fa fa-eye text-success"></i></div>
+                                            <div class="elsio_tx">{$b.counter|default:'1'}</div>
+                                        </li>
+                                        <li>
+                                            <div class="elsio_ic"><i class="fa fa-clock text-warning"></i></div>
+                                            <div class="elsio_tx">{$dtm->get_short_month_indo($b.post_date|default:'0000-00-00')}</div> 
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {foreachelse}
+            Tidak ada data
+            {/foreach}
+        </div>
+
+        <!-- Pagination -->
+        <div class="row">            
+            <div class="col-lg-12 col-md-12 col-sm-12">                
+                {$pagination.data|default:''}
+            </div>
+        </div>
+
+    </div>
+</section>
+<div class="clearfix"></div>
+<!-- ============================ article End ================================== -->

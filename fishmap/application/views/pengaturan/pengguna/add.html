@@ -1,0 +1,74 @@
+<div class="row">
+    <div class="col-xl-11 mx-auto">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title d-flex align-items-center">
+                    <div><i class="bx bxs-user me-1 font-22 text-primary"></i>
+                    </div>
+                    <h5 class="mb-0 text-primary">Tambah Pengguna</h5>
+                    <a href="#" onclick="history.back()" class="ml-auto btn btn-outline-secondary btn-sm"><i class="bx bxs-chevron-left-circle"></i> Kembali</a>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-xl-9 mx-auto">
+                        <form class="row g-3" method="post" action="{$config->site_url('pengaturan/pengguna/add_process')}">
+                            <input type="hidden" name="{$csrf.name|default:''}" value="{$csrf.hash|default:''}" />
+                            <div class="col-md-12">
+                                <label for="" class="form-label">Username</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-transparent"><i class="bx bxs-user"></i></span>
+                                    <input type="text" name="user_name" value="{$result.user_name|default:''}" class="form-control" id="" minlength="6" maxlength="20" required> 
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="" class="form-label">Password</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-transparent"><i class="bx bxs-lock"></i></span>
+                                    <input type="password" name="user_pass" value="" class="form-control" id="" minlength="8"maxlength="255">
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="" class="form-label">Password Confirm</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-transparent"><i class="bx bxs-lock"></i></span>
+                                    <input type="password" name="user_pass_conf" value="" class="form-control" id="" minlength="8"maxlength="255">
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="" class="form-label">Email</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-transparent"><i class="bx bxs-envelope"></i></span>
+                                    <input type="email" name="user_mail" value="{$result.user_mail|default:''}" class="form-control" id="" required>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="" class="form-label">Hak Akses</label>
+                                <select name="role_id" id="" class="form-control select2" data-placeholder="Hak Akses" required>
+                                    {html_options values=$roles.id output=$roles.value selected=$result.role_id}
+                                </select>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="" class="form-label">Lock Status</label>
+                                <select name="lock_st" id="" class="form-control select2" data-placeholder="Status" required>
+                                    {html_options values=$lock.id output=$lock.value selected=$result.lock_st}
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary px-5">Simpan</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-xl-3">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        $('.select2').select2();
+    });
+</script>

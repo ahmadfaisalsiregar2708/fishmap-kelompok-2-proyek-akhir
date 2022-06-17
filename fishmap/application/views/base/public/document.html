@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>         
+    {$default = 'FISHMAP'}
+
+    <!-- Primary Meta Tags -->    
+    <title>{$title|default:$default}{' | '|cat:$pref.site_title|default:$default}</title>   
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />    
+    <meta name="keywords" content="{$site.meta_keyword|default:$default}" />        
+    <meta name="title" content="{$title|default:$default}{' | '|cat:$pref.site_title|default:$default}" />           
+    <meta name="description" content="{if ($site) != null && empty($post)}{$pref.desc_title|default:$default}{else}{substr(strip_tags(preg_replace('/<img[^>]+>|\r|"|\n|/i', '', preg_replace('/\r|"|\n/', ' ', htmlspecialchars_decode($post.post_content)))),0,300)|default:$default}{/if}" />            
+    <meta name="author" content="{if ($site) != null && empty($post)}{$author.user_name|default:'admin'}{else}{$post.post_author|default:'operator'}{/if}" />       
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{(strtolower(substr($smarty.server.SERVER_PROTOCOL, 0, strpos($smarty.server.SERVER_PROTOCOL, '/'))))|cat:'://'|cat:$smarty.server.HTTP_HOST:$smarty.server.REQUEST_URI}" />
+    <meta property="og:title" content="{$title|default:$default}{' | '|cat:$pref.site_title|default:$default}" />
+    <meta property="og:description" content="{if ($site) != null && empty($post)}{$pref.desc_title|default:$default}{else}{substr(strip_tags(preg_replace('/<img[^>]+>/i', '', preg_replace('/\r|"|\n/', ' ', htmlspecialchars_decode($post.post_content)))), 0, 300)|default:$default}{/if}" />        
+    <meta property="og:image" content="{$BASEURL|cat:($post.post_image|default:'resource/themes/default/img/no-image-available.png')}" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="{strtolower(substr($smarty.server.SERVER_PROTOCOL, 0, strpos($smarty.server.SERVER_PROTOCOL, '/')))|cat:'://'|cat:$smarty.server.HTTP_HOST:$smarty.server.REQUEST_URI}" />
+    <meta property="twitter:title" content="{$title|default:$default}{' | '|cat:$pref.site_title|default:$default}" />
+    <meta property="twitter:description" content="{if ($site) != null && empty($post)}{$pref.desc_title|default:$default}{else}{substr(strip_tags(preg_replace('/<img[^>]+>/i', '', preg_replace('/\r|"|\n/', ' ', htmlspecialchars_decode($post.post_content)))), 0, 300)|default:$default}{/if}" />    
+    <meta property="twitter:image" content="{$BASEURL|cat:($post.post_image|default:'resource/themes/default/img/no-image-available.png')}" />                                                                                                                        
+    
+    <!--end load meta-->    
+    <meta name='robots' content='index,follow' />  
+
+    <link rel="shortcut icon" href="{$pref.site_icon|default:'#'}">
+
+    <!-- themes style -->
+    {$LOAD_STYLE}        
+    <link rel="stylesheet" type="text/css" href="{$THEMESPATH}" media="screen" />
+  
+</head>
+
+<body>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+
+        <!-- ============================================================== -->
+        <!-- Top header  -->
+        <!-- ============================================================== -->
+        <!-- Start Navigation -->
+        <div class="header theme-bg light-menu">                        
+            <div class="container">
+                <nav id="navigation" class="navigation navigation-landscape">
+                    <div class="nav-header">
+                        <a class="nav-brand" href="{$BASEURL}">
+                            <img src="{$pref.site_logo|default:'#'}" class="logo" alt="LOGO" height="50px;" />
+                        </a>
+                        <div class="nav-toggle"></div>                        
+                    </div>
+                    <div class="nav-menus-wrapper">                                                                        
+                        <!-- Main Menu  -->
+                        {$mainMenu|default:''}            
+                        <ul class="nav-menu multilang activated">
+                            <li runat="server" class="active">
+                                <div class="lang" href="#" onclick="selectLang('id')">
+                                    <a href="#" class="lang-wrap"><img src="{$config->base_url('resource/themes/fishmap/flags/1x1/id.svg')}" />ID</a>
+                                </div>
+                            </li>
+                            <li runat="server">
+                                <div class="lang" href="#" onclick="selectLang('en')">
+                                    <a href="#" class="lang-wrap"><img src="{$config->base_url('resource/themes/fishmap/flags/1x1/en.svg')}" />EN</a>
+                                </div>
+                            </li>
+                        </ul>                         
+                        <form action="{$config->base_url('proses-cari')}" method="post">
+                        <input type="hidden" name="{$csrf.name|default:''}" value="{$csrf.hash|default:''}" />
+                        <ul class="nav-menu nav-menu-social align-to-right">
+                            <li class="search-bar">
+                                <div class="input-group simple_search head-search">
+                                    <i class="fa fa-search ico"></i>
+                                    <input type="search" name="_cari" value="{$search.cari|default:''}" class="form-control" placeholder="Masukkan kata kunci"  oninvalid="this.setCustomValidity('Harus diisi')" oninput="setCustomValidity('')"  maxlength="255" required>
+                                    <div class="input-group-append">                                        
+                                        <button class="btn btn-search" type="submit" name="save" value="Cari">Cari</button>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>                        
+                        </form>                        
+                    </div>                                               
+                </nav>
+            </div>
+        </div>
+        <!-- End Navigation -->
+        <div class="clearfix"></div>
+        <!-- ============================================================== -->
+        <!-- Top header  -->
+        <!-- ============================================================== -->        
+
+        {include file="$template_content"}
+        
+        <div class="clearfix"></div>
+        
+        <!-- ============================ Call To Action ================================== -->
+        <section class="theme-bg call_action_wrap-wrap">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+
+                        <div class="call_action_wrap">
+                            <div class="call_action_wrap-head">
+                                {$sosmed.info|default:''}
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="social-media d-flex">
+                                    <a href="{$sosmed.facebook|default:'#'}" class="widgets-icons blue">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </a>
+                                    <a href="{$sosmed.instagram|default:'#'}" class="widgets-icons pink">
+                                        <i class="fab fa-instagram"></i>
+                                    </a>
+                                    <a href="{$sosmed.twitter|default:'#'}" class="widgets-icons cyan">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                    <a href="{$sosmed.youtube|default:'#'}" class="widgets-icons red">
+                                        <i class="fab fa-youtube"></i>
+                                    </a>
+                                    <a href="{$sosmed.tiktok|default:'#'}" class="widgets-icons">
+                                        <i class="fab fa-tiktok"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ============================ Call To Action End ================================== -->
+
+
+        <!-- ============================ Footer Start ================================== -->
+        <footer class="dark-footer skin-dark-footer style-2">
+            <div class="footer-middle">
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-lg-5 col-md-5">
+                            <div class="footer_widget">
+                                <img style="filter: grayscale(100%);" src="{$pref.site_logo|default:'#'}" class="img-footer small mb-2" alt="" />
+                                <p style="color: #FFF;">
+                                    {$pref.alamat|default:'-'}<br />
+                                    Telepon {$pref.telepon|default:'-'} <br />
+                                    Faksimile {$pref.faksimile|default:'-'}<br />
+                                    Pos-el {$pref.pos_el|default:'-'}
+                                </p>                                
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-7 ml-auto">
+                            <div class="row">
+                                                                
+                                <div class="col-lg-4 col-md-4">
+                                    <div class="footer_widget"> 
+                                        <!-- Tentang Kami -->
+                                        {$aboutUs|default:''}                                        
+                                    </div>
+                                </div>
+
+                                {for $a=1 to 2}                                                                        
+                                <div class="col-lg-4 col-md-4">
+                                    <div class="footer_widget">                                        
+                                        <h4 class="widget_title">{$col.$a.judul.value|default:''}</h4>                                                                                                               
+                                        <ul class="footer-menu">
+                                            {$u = $col.$a.isi.value|json_decode:true}
+                                            {for $b=0 to 4}        
+                                            <li><a href="{$u.link.$b|default:''}">{$u.text.$b|default:''}</a></li>
+                                            {/for}
+                                        </ul>                                                                                                                                                                  
+                                    </div>
+                                </div>
+                                {/for}  
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-12 col-md-12 text-center">
+                            <p class="mb-0">{$pref.site_footer|default:'Copyright TRUE'}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Teks Berjalan -->
+            {if $runningtext_active.running_active|default:'' eq 1  }
+            <div class="newsticker">
+                <div id="news-bar">
+                    <marquee direction="left" scrollamount="6" behavior="scroll" onmouseover="this.stop()" onmouseout="this.start()">
+                        {foreach from=$runningtext key=a item=b}
+                            <a href="{$b.alamat_tautan}">{$b.running_text}</a>                        
+                        {/foreach}                                                
+                    </marquee>
+                </div>
+            </div>
+            {/if}
+
+        </footer>
+        <!-- ============================ Footer End ================================== -->
+
+        <a id="back2Top" class="top-scroll" title="Back to top" href="#"><i class="ti-arrow-up"></i></a>
+
+         <!-- Modal -->
+         {if $popup.is_active|default:'' eq 1}
+            <div class="modal fade" id="fishmapModal" tabindex="-1" role="dialog" aria-labelledby="fishmapModalTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <div class="text-center">
+                                    <p class="f-16"><strong>Halo, selamat datang!</strong></p>
+                                </div>
+                                <div class="text-center">
+                                    <a href="#"><img class="img-fluid" src="{base_url($popup.img|default:'')}" class="wid-250 my-4" alt="images"></a>
+                                </div>
+                                <div class="text-center">
+                                    <div class="row justify-content-center linkout">
+                                        <div class="col-lg-12">
+                                            <p class="f-16"><strong>Layanan Unggulan:</strong></p>
+                                            <div class="row justify-content-center">
+                                                {foreach from=$rs_file item=result}
+                                                    <div class="col">
+                                                        <a class="linkout-icon" href="#">
+                                                            <img src="{base_url($result.photo|default:'')}" alt="KBBI" />
+                                                            <span>{$result.name|default:''}</span>
+                                                        </a>
+                                                    </div>
+                                                {/foreach}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none" style="transform:rotate(180deg);margin-bottom:-1px">
+                                <path class="elementor-shape-fill" fill="#0081BF" opacity="0.33" d="M473,67.3c-203.9,88.3-263.1-34-320.3,0C66,119.1,0,59.7,0,59.7V0h1000v59.7 c0,0-62.1,26.1-94.9,29.3c-32.8,3.3-62.8-12.3-75.8-22.1C806,49.6,745.3,8.7,694.9,4.7S492.4,59,473,67.3z">
+                                </path>
+                                <path class="elementor-shape-fill" fill="#0081BF" opacity="0.66" d="M734,67.3c-45.5,0-77.2-23.2-129.1-39.1c-28.6-8.7-150.3-10.1-254,39.1 s-91.7-34.4-149.2,0C115.7,118.3,0,39.8,0,39.8V0h1000v36.5c0,0-28.2-18.5-92.1-18.5C810.2,18.1,775.7,67.3,734,67.3z"></path>
+                                <path class="elementor-shape-fill" fill="#0081BF" d="M766.1,28.9c-200-57.5-266,65.5-395.1,19.5C242,1.8,242,5.4,184.8,20.6C128,35.8,132.3,44.9,89.9,52.5C28.6,63.7,0,0,0,0 h1000c0,0-9.9,40.9-83.6,48.1S829.6,47,766.1,28.9z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+         {/if}
+        <!-- End Modal -->
+
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+
+    <!-- load javascript -->    
+    {$LOAD_JAVASCRIPT} 
+    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" type="text/javascript"></script>       
+    <script>
+        $(document).ready(function () {
+        var index = Cookies.get('active');    
+            if (index == '1' || index == '0') {
+                $('.activated').find('a').removeClass('active');
+                $(".activated").find('a').eq(index).addClass('active');
+                $('.activated').on('click', 'li a', function (e) {
+                    e.preventDefault();
+                    $('.activated').find('a').removeClass('active');
+                    $(this).addClass('active');
+                    Cookies.set('active', $('.activated a').index(this));
+                });            
+            } else {
+                $('.activated').find('a').removeClass('active');
+                $(".activated").find('a').eq(index).addClass('active');
+                $('.activated').on('click', 'li a', function (e) {
+                    e.preventDefault();
+                    $('.activated').find('a').removeClass('active');
+                    $(this).addClass('active');
+                    Cookies.set('active', $('.activated a').index(this));
+                }); 
+            }
+        });
+
+        $(document).ready(function () {
+        var index = Cookies.get('active');    
+            if (index == '1' || index == '0') {
+                $('.activated').find('li').removeClass('active');
+                $(".activated").find('li').eq(index).addClass('active');
+                $('.activated').on('click', 'li div a img', function (e) {
+                    e.preventDefault();
+                    $('.activated').find('li').removeClass('active');
+                    $(this).addClass('active');
+                    Cookies.set('active', $('.activated a').index(this));
+                });
+            } else {
+                $('.activated').find('a').removeClass('active');
+                $(".activated").find('a').eq(index).addClass('active');
+                $('.activated').on('click', 'li a', function (e) {
+                    e.preventDefault();
+                    $('.activated').find('a').removeClass('active');
+                    $(this).addClass('active');
+                    Cookies.set('active', $('.activated a').index(this));
+                }); 
+            }
+        });
+
+        function selectLang(language){                        
+            var lang = language;        
+
+            if (lang == 'id'){    
+                setCookie('googtrans', '/en/id',1);
+                window.location = '/id';                  
+                location.reload();            
+            } else {        
+                setCookie('googtrans', '/id/en',1);      
+                window.location = '/en';            
+                location.reload();                                                 
+            }                                
+        }
+        
+        function googleTranslateElementInit(lang) {        
+            new google.translate.TranslateElement({
+                pageLanguage: 'id',                     
+                includeLanguage: 'id,en',                     
+            }, 'google_translate_element');
+        }  
+
+    </script>    
+    <script>
+        $(document).ready(function() {
+            checkCookie();
+        });
+
+        function setCookie(cname, cvalue, exdays) {
+            var d = new Date();
+            d.setTime(d.getTime() + (exdays * 15 * 60 * 1000));
+            // d.setTime(d.getTime() + (exdays * 0 * 0 * 60 * 1000));
+            var expires = "expires=" + d.toGMTString();
+            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+        }
+
+        function getCookie(cname) {
+            var name = cname + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+
+        function checkCookie() {
+            var ticks = getCookie("modelopen");
+            if (ticks != "") {
+                ticks++;
+                setCookie("modelopen", ticks, 1);
+                if (ticks == "1" || ticks == "1" || ticks == "0") {
+                    $('#fishmapModal').modal();
+                }
+            } else {
+                // user = prompt("Please enter your name:", "");
+                $('#fishmapModal').modal();
+                ticks = 1;
+                setCookie("modelopen", ticks, 1);
+            }
+        }
+
+    </script>
+    <script>
+        // slider swiper
+        var swiper = new Swiper(".swiper-container", {
+            autoHeight: true,
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false
+            },
+            lazy: {
+                //  tell swiper to load images before they appear
+                loadPrevNext: true,
+                // amount of images to load
+                loadPrevNextAmount: 1,
+            },
+            speed: 500,
+            loop: true,
+            pagination: {
+                el: ".swiper-pagination",
+                type: "fraction"
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev"
+            },
+            on: {
+                init: function() {
+                    $(".swiper-progress-bar").removeClass("animate");
+                    $(".swiper-progress-bar").removeClass("active");
+                    $(".swiper-progress-bar").eq(0).addClass("animate");
+                    $(".swiper-progress-bar").eq(0).addClass("active");
+                },
+                slideChangeTransitionStart: function() {
+                    $(".swiper-progress-bar").removeClass("animate");
+                    $(".swiper-progress-bar").removeClass("active");
+                    $(".swiper-progress-bar").eq(0).addClass("active");
+                },
+                slideChangeTransitionEnd: function() {
+                    $(".swiper-progress-bar").eq(0).addClass("animate");
+                }
+            }
+        });
+        $('.swiper-container').hover(function() {
+            swiper.autoplay.stop();
+            $('.swiper-progress-bar').removeClass('animate');
+        }, function() {
+            swiper.autoplay.start();
+            $('.swiper-progress-bar').addClass('animate');
+        });
+
+        // swiper responsive
+        function addSlides(obj) {
+
+            for (var prop in obj) {
+
+                if (obj.hasOwnProperty(prop)) {
+                    if ($(window).width() > 960) {
+                        console.log("vece");
+                        var images = imageSlides[prop].slide.md;
+                    } else {
+                        console.log("manje");
+
+                        var images = imageSlides[prop].slide.sm;
+                    }
+                    mySwiper.appendSlide([
+                        '<div class="swiper-slide"><div class="swiper-lazy" data-background="' + images + '"><div class="swiper-lazy-preloader"></div></div>'
+                    ]);
+                }
+            }
+        }
+
+    </script>    
+    <script id="rendered-js">
+        $(document).ready(function(){
+            $(".gallery").click(function(){
+                let id = this.id;
+                $.ajax({
+                    url: "{$config->site_url('page/ajax_galeri/')}" + id,
+                    success: function(e){
+                        galeri(id, e);
+                    },
+                    error: function(){
+                        alert("Gagal memuat data.");
+                    }
+                });
+            });
+        });
+        
+        function galeri($id, $data=''){
+            const result = [];
+            $data = JSON.parse($data);
+            $data.forEach(element => {
+                result.push({
+                    src : element.src,
+                    thumb : element.thumb,
+                    subHtml : element.subHtml,
+                });
+            });
+            console.log(result);
+            //
+            const $gallery = document.getElementById($id);
+            const gallery = window.lightGallery($gallery, {
+                dynamic: true,
+                plugins: [lgZoom, lgVideo, lgThumbnail],
+                dynamicEl: result
+            });
+            //
+            gallery.openGallery(0);
+        }
+    </script>
+
+</body>
+
+</html>

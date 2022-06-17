@@ -1,0 +1,163 @@
+<!-- Start kategory -->
+<div class="row">
+    <div class="col-xl-11 mx-auto">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title d-flex align-items-center">
+                    <div><i class="bx bxs-news me-1 font-22 text-primary"></i>
+                    </div>
+                    <h5 class="mb-0 text-primary">Kategori</h5>
+                    <a href="{$config->site_url('halaman/data')}" class="ml-auto btn btn-outline-secondary btn-sm"><i class="bx bxs-chevron-left-circle"></i> Kembali</a>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-xl-12">
+                        <form class="row g-3" method="post" action="{$config->site_url('halaman/data/edit_process')}" enctype='multipart/form-data'>
+                            <input type="hidden" name="{$csrf.name|default:''}" value="{$csrf.hash|default:''}" />   
+                            <input type="hidden" name="cat_id" value="{$result.cat_id|default:''}">                   
+                            <div class="col-md-6">
+                                <label for="" class="form-label">Judul</label>
+                                <input type="text" name="cat_title" value="{$result.cat_title|default:''}"
+                                    class="form-control" placeholder="Judul" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="" class="form-label">Deskripsi</label>                
+                                <textarea type="text" name="cat_desc" class="form-control" id="mytextarea" rows="5">{$result.cat_desc|default:''}</textarea>                                                
+                            </div>   
+                            <div class="row mt-4">
+                                <div class="col-8">
+                                    <button type="submit" class="btn btn-primary px-5">Simpan</button>
+                                </div>   
+                                <div class="col-4 d-flex justify-content-end">
+                                    <a href="{$config->site_url('halaman/data/delete_process/'|cat:$result.cat_id|cat:'/'|cat:path)}" onclick="return(confirm('Anda yakin akan menghapus data ini?'))" class="btn btn-outline-danger px-5">Hapus</a>
+                                </div>   
+                            </div>   
+                        </form>   
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End kategory -->
+
+<!-- Start daftar file -->
+<div class="row">
+    <div class="col-xl-11 mx-auto">
+        <div class="card">
+            <div class="card-body" id="ambil">
+                <div class="card-title d-flex align-items-center">
+                    <div><i class="bx bxs-info-circle me-1 font-22 text-primary"></i>
+                    </div>
+                    <h5 class="mb-0 text-primary">Daftar File</h5>
+                    <a href="{$config->site_url('halaman/data/add_file/'|cat:$result.cat_id)}" class="btn btn-outline-primary ms-2">Tambah Berkas</a>
+                </div>
+                <hr />
+                <div class="card-search mb-3">
+                 <form action="{$config->site_url('halaman/data/search_file_process')}" method="post">
+                  <input type="hidden" name="{$csrf.name|default:''}" value="{$csrf.hash|default:''}" />
+                  <div class="form-group row">
+                    <div class="col-md-3">
+                      <input type="text" name="doc_title" value="{$search.doc_title|default:''}" class="form-control" placeholder="Judul File"/>  
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-outline-info" type="submit" name="save" value="Cari">Cari</button>
+                    </div>
+                  </div>
+                 </form>
+                </div>
+                <div class="page-breadcrumb d-block d-sm-flex align-items-center mb-1">
+                  <p>
+                    <strong>{$pagination.start|default:'0'} - {$pagination.end|default:'0'}</strong> dari <strong>{$pagination.total|default:'0'}</strong> Data
+                  </p>
+                    <nav class="ms-auto" aria-label="Page navigation example">
+                        <ul class="pagination">
+                          {$pagination.data|default:''}
+                        </ul>
+                    </nav>
+                </div>
+                <div class="table-responsive">                       
+                    <div class="alert alert-warning alert-dismissible alert-form fade show">                                                
+                        <div class="text-dark">Untuk melakukan prediksi, wajib memilih salah satu file dan mengaktifkannya <b>menggeser tombol ke kanan</b>.<b style="color: red;">*</b></div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>                 
+                    <table class="table mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th width="30%" scope="col" class="text-left">Judul</th>
+                                <th width="10%" scope="col" class="text-left">Bulan</th>
+                                <th width="10%" scope="col" class="text-left">Tahun</th>
+                                <th width="10%" scope="col" class="text-left">Tipe</th>
+                                <th width="10%" scope="col" class="text-left">Tampilkan Diprediksi</th>
+                                <th width="10%" scope="col" class="text-left">Unduh File</th>
+                                <th width="10%" scope="col" class="text-left">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          {foreach from=$rs_file item=result}
+                            <tr>
+                                <td scope="row" class="text-bold"><a href="#">{$result.doc_title|default:''}</a></td>                                
+                                <td>{$dtm->getBulan($result.doc_month|default:'-')}</td>
+                                <td>{$result.doc_year|default:''}</td>
+                                <td>{$result.doc_type|default:''}</td>
+                                <td>
+                                    <div class="form-check form-switch">
+                                        <input type="hidden" name="{$csrf.name|default:''}" value="{$csrf.hash|default:''}" id="token" />
+                                        <input class="form-check-input is_active" type="checkbox" data-doc_id="{$result.doc_id}"
+                                        data-doc_active="{$result.doc_active}"
+                                        {if $result.doc_active eq '1'} checked {/if}>
+                                    </div>                                    
+                                </td>
+                                <td>
+                                  <a href="{base_url($result.doc_file|default:'')}"><i class="bx bx-download me-1 font-22 text-primary"></i></a>
+                                </td>
+                                <td>
+                                    <div class="d-flex order-actions">
+                                        <a href="{$config->site_url('halaman/data/edit_file/'|cat:$result.doc_id)}" class="edit ms-1"><i class="bx bx-edit"></i></a>
+                                        <a href="{$config->site_url('halaman/data/delete_file_process/'|cat:$result.doc_id)}" onclick="return(confirm('Anda yakin akan menghapus data ini?'))" class="delete ms-1"><i class="bx bx-trash"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                          {foreachelse}
+                          <tr>
+                              <td colspan="10">Data tidak ditemukan.</td>
+                          </tr>
+                          {/foreach}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="page-breadcrumb d-block d-sm-flex align-items-center mt-3">
+                  <p>
+                    <strong>{$pagination.start|default:'0'} - {$pagination.end|default:'0'}</strong> dari <strong>{$pagination.total|default:'0'}</strong> Data
+                  </p>
+                    <nav class="ms-auto" aria-label="Page navigation example">
+                        <ul class="pagination">
+                          {$pagination.data|default:''}
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+<!-- End daftar file -->
+
+<script>
+    $(document).ready(function() {
+        $('.is_active').click(function(){
+        $.ajax({
+            type: 'POST',
+            url: '{$config->site_url("halaman/data/status_active")}',
+            data: {
+            'doc_id':$(this).data('doc_id'),
+            'doc_active':$(this).data('doc_active'),
+            'te_csrf_to_protection':$('#token').val()
+            },
+            success: function(data){
+            let res = JSON.parse(data)
+            $('#token').val(res.csrf)
+            }
+        })
+        })
+    })
+</script>

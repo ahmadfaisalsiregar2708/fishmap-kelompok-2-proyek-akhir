@@ -1,0 +1,127 @@
+
+        <!-- ============================ Page Title Start================================== -->
+        <section class="page-title bg-cover" data-overlay="8">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+
+                        <div class="breadcrumbs-wrap">
+                            <h1 class="breadcrumb-title text-light">{$title|default:'Pencarian'}</h1>
+                            <nav class="transparent">
+                                <ol class="breadcrumb p-0">
+                                    <li class="breadcrumb-item"><a href="{$BASEURL}" class="text-light">Beranda</a></li>                                                                        
+                                    <li class="breadcrumb-item active theme-cl" aria-current="page">{$title|default:'Pencarian'}</li>
+                                </ol>
+                            </nav>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ============================ Page Title End ================================== -->
+
+        <!-- ============================ article Start ================================== -->
+        <section class="gray">
+            <div class="container">
+                <div class="row">
+
+                    <!-- Content -->
+                    <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="short_wraping">
+                                    <div class="row m-0 align-items-center justify-content-between">
+
+                                        <div class="col-lg-8 col-md-7 col-sm-12  col-sm-6">
+                                            <h4>Pencarian: "{if !empty($search.cari)}{$search.cari|default:''}{else}{$search.temukan|default:''}{/if}"</h4>
+                                        </div>
+
+                                        <div class="col-lg-4 col-md-5 col-sm-12 col-sm-6">
+                                            <div class="shorting_pagination_laft">                                                 
+                                                <h6 class="m-0 text-right">Menampilkan {$pagination.start|default:'0'} - {$pagination.end|default:'0'}</strong> dari <strong>{$pagination.total|default:'0'}</strong></h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row justify-content-center">
+
+                            {foreach from=$rs_search key=a item=b}
+                            <!-- Single Grid -->
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                <div class="crs_lt_2 p-3">
+                                    <div class="crs_lt_boxes">
+                                        <div class="crs_grid_list_caption">
+                                            <div class="crs_lt_101">
+                                                <div class="blg_tag"><span>{$b.post_category|default:''}</span></div>
+                                            </div>
+                                            <div class="crs_lt_102">                                                
+                                                {if ($b.post_category) eq 'halaman' && ($b.post_id) eq '3'} 
+                                                    <a href="{$config->base_url('profil-organisasi')}"><h4 class="crs_tit">{$b.post_title|default:''}</h4></a>                                                                                                                                                            
+                                                {elseif ($b.post_category) eq 'halaman' && ($b.post_id) eq '7'}
+                                                    <a href="{$config->base_url('sejarah')}"><h4 class="crs_tit">{$b.post_title|default:''}</h4></a>                                                                                                                                                            
+                                                {elseif ($b.post_category) eq 'halaman'}
+                                                    <a href="{$config->base_url('halaman/'|cat:$b.post_id:'/':preg_replace('/[^a-zA-Z0-9-]/i', '', strtolower(str_replace(' ', '-', $b.post_title))))}"><h4 class="crs_tit">{$b.post_title|default:''}</h4></a>                                                                                                                                                                                                                                                            
+                                                {elseif ($b.post_category) eq 'berita' }
+                                                    <a href="{$config->base_url('berita-detail/'|cat:$b.post_id:'/':preg_replace('/[^a-zA-Z0-9-]/i', '', strtolower(str_replace(' ', '-', $b.post_title))))}"><h4 class="crs_tit">{$b.post_title|default:''}</h4></a>                                                
+                                                {elseif ($b.post_category) eq 'artikel' }
+                                                    <a href="{$config->base_url('artikel-detail/'|cat:$b.post_id:'/':preg_replace('/[^a-zA-Z0-9-]/i', '', strtolower(str_replace(' ', '-', $b.post_title))))}"><h4 class="crs_tit">{$b.post_title|default:''}</h4></a>                                                                                                                                                
+                                                {/if}
+                                                <p class="d-none d-sm-block">{substr(strip_tags(preg_replace("/<img[^>]+>/i", " ", htmlspecialchars_decode($b.post_content|default:''))),0,200)|cat:'...'}</p>                                                 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {foreachelse}                            
+                                <p>Hasil pencarian tidak ditemukan.</p>
+                            {/foreach}
+                            
+                        </div>
+
+                        <!-- Pagination -->                        
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 mb-3">
+                                <ul class="pagination p-center">
+                                    {$pagination.data|default:''}
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 float-sm-left">
+                        <div class="page-sidebar p-0">
+                            <a class="filter_links" data-toggle="collapse" href="#fltbox" role="button" aria-expanded="false" aria-controls="fltbox">Buka Pencarian<i class="fa fa-sliders-h ml-2"></i></a>
+                            <div class="collapse" id="fltbox">
+                                <!-- Find New Property -->
+                                <div class="sidebar-widgets p-4">
+                                    <form action="{$config->base_url('proses-temukan')}" method="post">
+                                    <input type="hidden" name="{$csrf.name|default:''}" value="{$csrf.hash|default:''}" />
+                                    <div class="form-group">
+                                        <div class="input-with-icon">
+                                            <input type="search" name="_temukan" value="{$search.temukan|default:''}" class="form-control" placeholder="Masukkan kata kunci" oninvalid="this.setCustomValidity('Harus diisi')" oninput="setCustomValidity('')" maxlength="255" required>
+                                            <i class="ti-search"></i>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12">                                            
+                                            <button class="btn theme-bg rounded full-width" type="submit" name="save" value="Temukan">Temukan</button>
+                                        </div>
+                                    </div>
+                                </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Sidebar End -->
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+        <div class="clearfix"></div>
+        <!-- ============================ article End ================================== -->

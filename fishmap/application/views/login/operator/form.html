@@ -1,0 +1,73 @@
+    {if $login_st|is_array eq false} 
+    {if $login_st|default:'' eq 'error'}
+    <div class="alert alert-danger alert-dismissable">
+        <a href="{$config->site_url('login/operatorlogin')}" aria-hidden="true" data-dismiss="alert" class="close btn btn-light" type="button">×</a>
+        <p><strong>Akun Anda tidak ditemukan</strong>, silahkan coba lagi atau hubungi administrator Anda</p>
+        <div class="clear"></div>
+    </div>
+    {elseif $login_st|default:'' eq 'locked'}
+    <div class="alert alert-danger alert-dismissable">
+        <a href="{$config->site_url('login/operatorlogin')}" aria-hidden="true" data-dismiss="alert" class="close btn btn-light" type="button">×</a>
+        <p><strong>Akun Anda tidak ditemukan</strong>, silahkan coba lagi atau hubungi administrator Anda</p>
+        <div class="clear"></div>
+    </div>
+    {else}
+    <div class="alert alert-warning alert-dismissable">
+        <p><strong>Silahkan masuk terlebih dahulu</strong> untuk dapat mengakses aplikasi ini!</p>
+        <div class="clear"></div>
+    </div> 
+    {/if}
+    {if $smarty.session.username|default:''}
+    <div class="alert alert-danger alert-dismissable">
+        <a href="{$config->site_url('login/operatorlogin')}" aria-hidden="true" data-dismiss="alert" class="close btn btn-light" type="button">×</a>
+        <p><strong>Akun Anda tidak ditemukan</strong>, silahkan coba lagi atau hubungi administrator Anda</p>
+        <div class="clear"></div>
+    </div>
+    {/if}
+    <form action="{$config->site_url('login/operatorlogin/login_process')}" method="post" class="row g-3">
+        <input type="hidden" name="{$csrf.name|default:''}" value="{$csrf.hash|default:''}" />
+        <div class="col-12">
+            <label for="inputEmailAddress" class="form-label">Nama Pengguna</label>
+            <input type="text" class="form-control" placeholder="Nama Pengguna" name="username" autofocus="" autocomplete="off" maxlength="30" required="" />
+        </div>
+        <div class="col-12">
+            <label for="inputChoosePassword" class="form-label">Katasandi</label>
+            <div class="input-group" id="show_hide_password">
+                <input type="password" class="form-control border-end-0" id="inputChoosePassword" placeholder="Katasandi" name="pass" autofocus="" autocomplete="off" maxlength="300" required="" /> <a href="javascript:;" class="input-group-text bg-transparent"><i class='bx bx-hide'></i></a>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-12">
+                <div class="row">
+                    <div class="col-md-6 ">
+                        <div id="captcha_image">
+                            {$captcha.image|default:''}
+                            <a type="button" class="card-link" href="{$config->site_url('login/operatorlogin')}"><small><i class="bx bx-refresh"></i>Muat Ulang Captcha</small></a>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" name="captcha" required="" placeholder="Kode Captcha" class="form-control {if $smarty.session.captcha|default:''} is-invalid{/if}">
+                        {if $smarty.session.captcha|default:''}
+                            <div id="validationServer03Feedback" class="invalid-feedback">
+                                {$smarty.session.captcha|default:''}
+                            </div>
+                        {/if}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary"><i class="bx bxs-lock-open"></i>Masuk</button>
+            </div>
+        </div>
+    </form>
+    {else}
+    <div class="alert alert-info">
+        <p><strong>Info</strong>, Anda sudah masuk.</p>
+    </div>
+    <div class="alert alert-default text-center">
+        <p><a href="{$config->site_url($login_st.default_page)}">Kembali ke halaman Dasbor</a></p>
+    </div>
+    {/if}

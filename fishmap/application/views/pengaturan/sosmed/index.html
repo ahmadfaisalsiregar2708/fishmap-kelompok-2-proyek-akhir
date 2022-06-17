@@ -1,0 +1,63 @@
+<div class="row">
+    <div class="col-xl-11 mx-auto">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title d-flex align-items-center">
+                    <div><i class="bx bxs-share-alt me-1 font-22 text-primary"></i>
+                    </div>
+                    <h5 class="mb-0 text-primary">Sosial Media</h5>
+                </div>
+                <hr />
+                <div class="row">
+                    <form class="row g-3 form-horizontal" method="post" action="{$config->site_url('pengaturan/sosmed/edit_process')}" enctype='multipart/form-data'>
+                    <div class="col-xl-9 mx-auto">
+                        <input type="hidden" name="{$csrf.name|default:''}" value="{$csrf.hash|default:''}" />
+                        <div class="col-md-12">
+                            <label for="" class="form-label">Informasi</label>
+                            <input type="hidden" name="info[id]" value="{$rs.info.id|default:$result.info.id}">
+                            <textarea name="info[value]" id="summernote" cols="100%" rows="5" class="form-control">{$rs.info.value|default:'-'}</textarea>
+                        </div>
+                        {foreach from=$rs key=a item=b}
+                        {if $a neq 'site_logo' AND $a neq 'site_icon' AND $a neq 'info'}
+                        <div class="col-md-12">
+                            <label for="form{$a}" class="form-label">{$a|ucwords|replace:'_':' '}</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-transparent"><i class="{$b.icon|default:'bx bx-user'}"></i></span>
+                                <input type="url" class="form-control" id="form{$a}" name="{$a}[value]" value="{$b.value|default:$result.{$a.value}}" required>
+                                <input type="hidden" name="{$a}[id]" value="{$b.id|default:$result.{$a.id}}">
+                            </div>
+                        </div>
+                        {/if}
+                        {/foreach}
+                    </div>
+                    <div class="col-xl-3 mx-auto">    
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary px-5">Simpan</button>
+                    </div>
+                    <div class="col-md-12">
+                        
+                    </div>
+                </form>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#summernote').summernote({
+        placeholder: 'Tulis sesuatu...',
+        tabsize: 2,
+        height: 100,
+        toolbar: [
+            ['style', ['style']],
+            ['font', ['bold', 'underline', 'clear']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['table', ['table']],
+            // ['insert', ['link', 'picture', 'video']],
+            ['view', ['fullscreen', 'codeview', 'help']]
+        ]
+    });
+</script>

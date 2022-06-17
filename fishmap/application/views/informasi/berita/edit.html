@@ -1,0 +1,214 @@
+<style>
+    .note-editor .dropdown-toggle::after {
+        all: unset;
+    }
+
+    .note-editor .note-dropdown-menu {
+        box-sizing: content-box;
+    }
+
+    .note-editor .note-modal-footer {
+        box-sizing: content-box;
+    }
+</style>
+
+<div class="row">
+    <div class="col-xl-11 mx-auto">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title d-flex align-items-center">
+                    <div><i class="bx bxs-news me-1 font-22 text-primary"></i>
+                    </div>
+                    {if $form|default:'' eq 'add'}
+                        <h5 class="mb-0 text-primary">Tambah Berita</h5>
+		            {else}
+                        <h5 class="mb-0 text-primary">Ubah Berita</h5>
+		            {/if}
+                    <a href="{$config->site_url('informasi/berita/')}" class="ml-auto btn btn-outline-secondary btn-sm"><i class="bx bxs-chevron-left-circle"></i> Kembali</a>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-xl-9 mx-auto">
+                        <form class="row g-3" method="post" action="{$config->site_url('informasi/berita/edit_process')}" enctype='multipart/form-data'>                        
+                            <input type="hidden" name="{$csrf.name|default:''}" id="token" value="{$csrf.hash|default:''}" />                    
+                            <input type="hidden" name="post_id" value="{$result.post_id|default:''}">       
+                            <div class="col-md-12">
+                                <label for="" class="form-label">Judul</label>
+                                <input type="text" name="post_title" value="{$result.post_title|default:''}" class="form-control" placeholder="Judul" style="font-size: 1.2rem;" required>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="" class="form-label">Konten</label>                
+                                <textarea type="text" name="post_content" class="form-control" id="summernote" rows="10" aria-hidden="true">{$result.post_content|default:''}</textarea>                                                
+                            </div>                               
+                            <div class="col-md-12">                                
+                                <label for="formFile" class="form-label">Unggah Dokumen</label>
+                                <input id="fancy-file-upload-file" type="file" name="file_fancy" multiple>
+                            </div>                        
+                            <div class="col-lg-12">                                  
+                                <table class="table">
+                                    <thead>
+                                        {foreach from=$rs_file key=no item=result}                 
+                                        <tr>
+                                            <td class="text-center" width="10%">
+                                                <button class="btn btn-large btn-success">{$result.file_type|default:'file'|upper}</button>
+                                            </td>
+                                            <td class="text-left" width="80%">
+                                                <a href="{base_url($result.file_path|default:'')}" ><i class="bx bx-download me-1 font-22"></i>{$result.file_nm|default:''}</a>
+                                            </td>
+                                            <td class="text-center" width="100%">
+                                                <a href="{$config->site_url('informasi/berita/delete_doc/'|cat:$result.file_id|default:'')}" onclick="return(confirm('Anda yakin akan menghapus file ini?'))"><i class="bx bx-trash text-lg"></i></a></td>
+                                        </tr>
+                                        {/foreach}
+                                    </thead>
+                                </table>                    
+                            </div>                                                                                         
+                    </div>
+                    <div class="col-xl-3 mx-auto">                        
+                            <div class="col-md-12">
+                                <label></label>     
+                                {if $form|default:'' eq 'add'}
+                                    <button type="submit" class="btn btn-lg btn-primary px-5 mr-1 w-100"><i class="bx bx-send"></i>Terbitkan</button> 
+                                {else}
+                                    <button type="submit" class="btn btn-lg btn-primary px-5 mr-1 w-100"><i class="bx bx-save"></i>Simpan</button>                                 
+                                {/if}                           
+                            </div>                            
+                            <div class="col-md-12">
+                                <div class="mt-3">
+                                    <label for="" class="fomr-label">Status</label>                                    
+                                    <select name="post_status" class="single-select">                                                                        
+                                        <option value="publish" {if {$result.post_status|default:''} eq "publish" }selected="selected" {/if}>Terbitkan</option>                                        
+                                        <option value="draft" {if {$result.post_status|default:''} eq "draft" }selected="selected" {/if}>Draf</option>                                    
+                                    </select>                                    
+                                </div>    
+                            </div>                   
+                            <div class="col-md-12">
+                                <div class="mt-3">
+                                    <label for="" class="fomr-label">Tanggal Post</label>  
+                                    <input type="text" id="datetimepicker" name="post_date" value="{date('Y/m/d H:i', strtotime($result.post_date|default:''))}"  class="form-control"> 
+                                </div>    
+                            </div>                   
+                            <div class="col-md-12">
+                                <label for="" class="form-label mt-3">Gambar Sampul</label>
+                                <div class="card">
+
+                                    <!-- <div class="card-body">
+                                        <input type="file" name="post_image" value="{$result.post_image|default:''}" class="form-control" id="image_preview" accept=".jpg, .png, image/jpeg, image/png">
+                                    </div>                                     -->
+                                    <!-- <div class="card-body">                                            
+                                        <div class="ff_fileupload_wrap">
+                                            <div class="ff_fileupload_dropzone_wrap">
+                                                <img src="{base_url($result.post_image|default:'')}" alt=" " class="ff_fileupload_dropzone" id="show_image">
+                                            </div>
+                                        </div>
+                                    </div>                                         -->
+                                    
+                                    <input id="fancy-file-upload" type="file" name="file_fancy" accept=".jpg, .png, image/jpeg, image/png"  onchange="if(parseInt($(this).get(0).files.length)>2) 
+                                    alert('You can only upload a maximum of 2 files'); 
+                                  else alert('You are within the limit');">
+
+                                    <div class="text-center mb-3">
+                                        <a href="{$config->site_url('informasi/berita/delete_img/'|cat:$result.post_id|default:'')}" type="button" class="btn delete btn-sm btn-light px-3" onclick="return(confirm('Anda yakin akan menghapus gambar ini?'))">Hapus</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+</div>
+<script>
+    $(document).ready(function(){
+        $('#datetimepicker').datetimepicker({
+            formatDate:'Y/m/d',
+        });
+    })
+</script>
+
+<script type="text/javascript">
+        var php_upload_path = '{$config->site_url("informasi/berita/upload_file")}';
+        $('#summernote').summernote({
+            placeholder: 'Tulis sesuatu..',
+            tabsize: 2,
+            height: 320,
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['table', ['table']],
+                ['insert', ['link','picture', 'video']],
+                ['view', ['fullscreen', 'codeview', 'help']]
+            ],
+            callbacks: {
+					onImageUpload: function(image) {
+						uploadImage(image[0]);
+					}
+			}
+        });
+
+        function uploadImage(image) {
+				var data = new FormData();
+				data.append("image", image);
+				$.ajax({
+					url: php_upload_path,
+					cache: false,
+					contentType: false,
+					processData: false,
+					data: data,
+					type: "POST",
+					success: function(url) {
+                        console.log(url)
+						$('#summernote').summernote("insertImage", url);
+					},
+					error: function(data) {
+						console.log(data);
+					}
+				});
+		}
+</script>
+<!-- <script>
+    function readImage(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+        
+            reader.onload = function (e) {
+                $('#show_image').attr('src', e.target.result);
+            }
+        
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#image_preview").change(function(){
+    readImage(this);
+    });
+</script> -->
+{$r = $config->item('uploadConfig')}
+<script>
+    $('#fancy-file-upload').FancyFileUpload({
+        params: {
+            name : 'sampul',
+            id : {$result.post_id|default:''},
+        },
+        retries : 1,
+        url : '{$config->site_url("informasi/berita/fancy_upload")}',
+        maxfilesize: {$r.max_size|default:'1000000'}
+    });
+    {if $result.post_image neq ''}
+    $(".ff_fileupload_wrap .ff_fileupload_dropzone").css('background-image', 'url({base_url($result.post_image|default:'')})')
+    {/if}
+</script>
+
+<script>
+    $('#fancy-file-upload-file').FancyFileUpload({
+        params: {
+            name : 'dokumen',
+            id : {$result.post_id|default:''},
+        },
+        retries : 3,
+        url : '{$config->site_url("informasi/berita/fancy_upload")}',
+        maxfilesize: {$r.max_size|default:'1000000'}
+    });
+</script>

@@ -1,0 +1,100 @@
+<div class="row">
+    <div class="col-xl-11 mx-auto">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title d-flex align-items-center">
+                    <div><i class="bx bxs-user me-1 font-22 text-primary"></i>
+                    </div>
+                    <h5 class="mb-0 text-primary">Daftar Pengguna</h5>
+                    <a href="{$config->site_url('pengaturan/pengguna/add')}" class="btn btn-outline-primary ms-2">Tambah Baru</a>
+                </div>
+                <hr />
+                <div class="card-search mb-3">
+                 <form action="{$config->site_url('pengaturan/pengguna/search_process')}" method="post">
+                  <input type="hidden" name="{$csrf.name|default:''}" value="{$csrf.hash|default:''}" />
+                  <div class="form-group row">
+                    <div class="col-md-3">
+                      <input type="text" name="user_name" value="{$search.user_name|default:''}" class="form-control" placeholder="Username">
+                    </div>
+                    <div class="col-md-3">
+                      <input type="text" name="user_mail" value="{$search.user_mail|default:''}" class="form-control" placeholder="Email">
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-outline-info" type="submit" name="save" value="Cari">Cari</button>
+                    </div>
+                  </div>
+                 </form>
+                </div>
+                <div class="page-breadcrumb d-block d-sm-flex align-items-center mb-1">
+                  <p>
+                    <strong>{$pagination.start|default:'0'} - {$pagination.end|default:'0'}</strong> dari <strong>{$pagination.total|default:'0'}</strong> Data
+                  </p>
+                    <nav class="ms-auto" aria-label="Page navigation example">
+                        <ul class="pagination">
+                          {$pagination.data|default:''}
+                        </ul>
+                    </nav>
+                </div>
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="text-center" scope="col">#</th>
+                                <th class="text-center" scope="col">Username</th>
+                                <th class="text-center" scope="col">Email</th>
+                                <th class="text-center" scope="col">Status</th>
+                                <th class="text-center" scope="col" width="8%">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {foreach from=$rs_id key=a item=b}
+                            <tr>
+                                <td class="text-center" scope="row">{$no++}</td>
+                                <td class="text-center" scope="row">{$b->user_name|default:''}</td>
+                                <td class="text-center" scope="row">{$b->user_mail|default:''}</td>
+                                <td class="text-center" scope="row">
+                                    <div class="badge rounded-pill {if $b->lock_st eq '0'}text-success bg-light-success{else}text-danger bg-light-danger{/if} p-2 text-uppercase px-2">
+                                        <i class="bx {if $b->lock_st eq '0'}bx-lock-open{else}bx-lock{/if}"></i>
+                                        {if $b->lock_st eq '0'}Terbuka{else}Terkunci{/if}
+                                    </div>
+                                </td>
+                                <td class="text-center" scope="row">
+                                    <div class="d-flex order-actions">
+                                        <a href="{$config->site_url('pengaturan/pengguna/edit/'|cat:$b->user_id)}" type="button" class="edit ms-1" title="Ubah" data-bs-toggle="tooltip" data-bs-placement="top"><i class="bx bx-edit"></i>
+                                        </a>
+                                        {if $b->user_id neq '2'}
+                                        <a href="{$config->site_url('pengaturan/pengguna/delete_process/'|cat:$b->user_id)}" onclick="return(confirm('Anda yakin akan menghapus data ini?'))" type="button" class="delete ms-1" title="Hapus" data-bs-toggle="tooltip" data-bs-placement="top"><i class="bx bx-trash"></i>
+                                        </a>
+                                        {/if}
+                                    </div>
+                                </td>
+                            </tr>
+                            {foreachelse}
+                            <tr>
+                                <td colspan="10">Data tidak ditemukan.</td>
+                            </tr>
+                            {/foreach}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="page-breadcrumb d-block d-sm-flex align-items-center mt-3">
+                  <p>
+                    <strong>{$pagination.start|default:'0'} - {$pagination.end|default:'0'}</strong> dari <strong>{$pagination.total|default:'0'}</strong> Data
+                  </p>
+                    <nav class="ms-auto" aria-label="Page navigation example">
+                        <ul class="pagination">
+                          {$pagination.data|default:''}
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <script>
+    $(function () {
+        $('[data-bs-toggle="popover"]').popover();
+        $('[data-bs-toggle="tooltip"]').tooltip();
+    })
+</script>

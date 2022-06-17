@@ -1,0 +1,280 @@
+<!--  ============================ Page Title Start==================================  -->
+<section class="page-title">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                
+                <div class="breadcrumbs-wrap">
+                    <nav class="transparent">
+                        <ol class="breadcrumb p-0">
+                            <li class="breadcrumb-item"><a href="{$BASEURL}">Beranda</a></li>                            
+                            <li class="breadcrumb-item"><a href="{$config->site_url($post.post_category|default:'')}">{$post.post_category|ucwords|default:'Berita'}</a></li>                            
+                            <li class="breadcrumb-item active theme-cl" aria-current="page">Detail {$post.post_category|ucwords|default:'Berita'}</li>
+                        </ol>
+                    </nav>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</section>
+<!--  ============================ Page Title End ==================================  -->
+<!--  ============================ Blog Detail Start ==================================  -->
+<section class="gray">
+			
+    <div class="container">
+    
+        <!-- row Start -->
+        <div class="row">
+        
+            <!-- Blog Detail -->
+            <div class="col-lg-8 col-md-12 col-sm-12 col-12">
+                <div class="article_detail_wrapss single_article_wrap format-standard">
+                    <div class="article_body_wrap">
+                        <h2 class="post-title mb-3">{$post.post_title|default:'#'}</h2>
+                        <div class="article_top_info mb-3">
+                            <ul class="article_middle_info">
+                                <li><a href="#"><span class="icons"><i class="ti-user"></i></span>Oleh: {$post.post_author|ucwords|default:'Anonim'}</a></li>
+                                <li><a href="#"><span class="icons"><i class="ti-time"></i></span>{$dtm->get_full_date($post.post_date)|default:'0000-00-00 00:00'}</a></li>
+                                <li><a href="#"><span class="icons"><i class="ti-eye"></i></span>{$post.counter|default:'1'}</a></li>
+                            </ul>
+                        </div>
+                        <div class="article_featured_image">                            
+                            {if $post.post_category|default:'' != 'tim' AND $post.post_image|default:'' != null}
+                                <img class="img-fluid" src="{$BASEURL|cat:$post.post_image|default:''}" alt="{$post.post_title|default:'-'}" width="728px">
+                            {else}
+                                <img class="img-fluid" src="{$BASEURL|cat:$post.post_image|default:''}" alt="{$post.post_title|default:'-'}" width="728px" hidden>
+                            {/if}                                                        
+                        </div>
+                        <!-- Post Content -->
+                        {$post.post_content|htmlspecialchars_decode|default:'Tidak ada data.'}
+                    </div>
+                </div>
+                
+                <!-- Author Detail -->
+                {if $post.post_category|default:'' != 'artikel'}                                                            
+                <div class="article_detail_wrapss single_article_wrap format-standard">                    
+                    <div class="article_posts_thumb">
+                        <span class="img"><img class="img-fluid" src="{$BASEURL}{$author.foto|default:'https://via.placeholder.com/500x500'}" alt=""></span>
+                        <h3 class="pa-name">{$author.name|default:'#####'}</h3>
+                        <ul class="social-links">
+                            {$r = $author.sosmed|json_decode:1}
+                            <li><a href="https://facebook.com/{$r.facebook|default:'#'}"><i class="fab fa-facebook-f"></i></a></li>
+                            <li><a href="https://twitter.com/{$r.twitter|replace:'@':''|default:'#'}"><i class="fab fa-twitter"></i></a></li>
+                            <li><a href="https://instagram.com/{$r.instagram|default:'#'}"><i class="fab fa-instagram"></i></a></li>
+                            <li><a href="https://github.com/{$r.github|default:'#'}"><i class="fab fa-github"></i></a></li>
+                        </ul>
+                        <p class="pa-text">{$author.pesan|default:'...'}</p>
+                    </div>                    
+                </div>
+                {else}  
+                <div class="article_detail_wrapss single_article_wrap format-standard">                    
+                    <div class="article_posts_thumb">
+                        <span class="img"><img class="img-fluid" src="{$BASEURL}{$post.photo_penulis|default:'https://via.placeholder.com/500x500'}" alt=""></span>
+                        <h3 class="pa-name">{$post.name_penulis|default:'#####'}</h3>
+                        <!-- <ul class="social-links">
+                            {$r = $author.sosmed|json_decode:1}
+                            <li><a href="https://facebook.com/{$r.facebook|default:'#'}"><i class="fab fa-facebook-f"></i></a></li>
+                            <li><a href="https://twitter.com/{$r.twitter|replace:'@':''|default:'#'}"><i class="fab fa-twitter"></i></a></li>
+                            <li><a href="https://instagram.com/{$r.instagram|default:'#'}"><i class="fab fa-instagram"></i></a></li>
+                            <li><a href="https://github.com/{$r.github|default:'#'}"><i class="fab fa-github"></i></a></li>
+                        </ul> -->
+                        <p class="pa-text">{$post.profile_penulis|default:'...'}</p>
+                    </div>                    
+                </div>
+                {/if}  
+
+                <!-- Blog Comment -->
+                <!-- <div class="article_detail_wrapss single_article_wrap format-standard">
+                    
+                    <div class="comment-area">
+                        <div class="all-comments">
+                            <h3 class="comments-title">05 Comments</h3>
+                            <div class="comment-list">
+                                <ul>
+                                    <li class="article_comments_wrap">
+                                        <article>
+                                            <div class="article_comments_thumb">
+                                                <img src="https://via.placeholder.com/500x500" alt="">
+                                            </div>
+                                            <div class="comment-details">
+                                                <div class="comment-meta">
+                                                    <div class="comment-left-meta">
+                                                        <h4 class="author-name">Rosalina Kelian <span class="selected"><i class="fas fa-bookmark"></i></span></h4>
+                                                        <div class="comment-date">19th May 2018</div>
+                                                    </div>
+                                                    <div class="comment-reply">
+                                                        <a href="#" class="reply"><span class="icona"><i class="ti-back-left"></i></span> Reply</a>
+                                                    </div>
+                                                </div>
+                                                <div class="comment-text">
+                                                    <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim laborumab.
+                                                        perspiciatis unde omnis iste natus error.</p>
+                                                </div>
+                                            </div>
+                                        </article>
+                                        <ul class="children">
+                                            <li class="article_comments_wrap">
+                                                <article>
+                                                    <div class="article_comments_thumb">
+                                                        <img src="https://via.placeholder.com/500x500" alt="">
+                                                    </div>
+                                                    <div class="comment-details">
+                                                        <div class="comment-meta">
+                                                            <div class="comment-left-meta">
+                                                                <h4 class="author-name">Rosalina Kelian</h4>
+                                                                <div class="comment-date">19th May 2018</div>
+                                                            </div>
+                                                            <div class="comment-reply">
+                                                                <a href="#" class="reply"><span class="icons"><i class="ti-back-left"></i></span> Reply</a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="comment-text">
+                                                            <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim laborumab.
+                                                                perspiciatis unde omnis iste natus error.</p>
+                                                        </div>
+                                                    </div>
+                                                </article>
+                                                <ul class="children">
+                                                    <li class="article_comments_wrap">
+                                                        <article>
+                                                            <div class="article_comments_thumb">
+                                                                <img src="https://via.placeholder.com/500x500" alt="">
+                                                            </div>
+                                                            <div class="comment-details">
+                                                                <div class="comment-meta">
+                                                                    <div class="comment-left-meta">
+                                                                        <h4 class="author-name">Rosalina Kelian</h4>
+                                                                        <div class="comment-date">19th May 2018</div>
+                                                                    </div>
+                                                                    <div class="comment-reply">
+                                                                        <a href="#" class="reply"><span class="icons"><i class="ti-back-left"></i></span> Reply</a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="comment-text">
+                                                                    <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim laborumab.
+                                                                        perspiciatis unde omnis iste natus error.</p>
+                                                                </div>
+                                                            </div>
+                                                        </article>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="article_comments_wrap">
+                                        <article>
+                                            <div class="article_comments_thumb">
+                                                <img src="https://via.placeholder.com/500x500" alt="">
+                                            </div>
+                                            <div class="comment-details">
+                                                <div class="comment-meta">
+                                                    <div class="comment-left-meta">
+                                                        <h4 class="author-name">Rosalina Kelian</h4>
+                                                        <div class="comment-date">19th May 2018</div>
+                                                    </div>
+                                                    <div class="comment-reply">
+                                                        <a href="#" class="reply"><span class="icons"><i class="ti-back-left"></i></span> Reply</a>
+                                                    </div>
+                                                </div>
+                                                <div class="comment-text">
+                                                    <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim laborumab.
+                                                        perspiciatis unde omnis iste natus error.</p>
+                                                </div>
+                                            </div>
+                                        </article>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="comment-box submit-form">
+                            <h3 class="reply-title">Post Comment</h3>
+                            <div class="comment-form">
+                                <form action="#">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-12">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" placeholder="Your Name">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-12">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" placeholder="Your Email">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                            <div class="form-group">
+                                                <textarea name="comment" class="form-control" cols="30" rows="6" placeholder="Type your comments...."></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                            <div class="form-group">
+                                                <a href="#" class="btn theme-bg text-white">Submit Now</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div> -->
+                                
+            </div>            
+            
+            <!-- Single blog Grid -->
+            <div class="col-lg-4 col-md-12 col-sm-12 col-12">
+                                
+                <!-- Categories -->
+                <div class="single_widgets widget_category">
+                    <h4 class="title">Kategori</h4>
+                    <ul>
+                        {foreach from=$_tpl key=a item=b}                                         
+                            <li class="{if $b.post_category == $post.post_category}active{/if}"><a href="{$config->base_url($b.post_category)}">{$_tpla.{$b.post_category|default:''}} <span>{$b.jml|default:'0'}</span></a></li>                                                                                                        
+                        {/foreach}
+                    </ul>
+                </div>
+                
+                <!-- Trending Posts -->
+                <div class="single_widgets widget_thumb_post">
+                    <h4 class="title">Sedang Tren</h4>
+                    <ul>
+                        {foreach from=$_tpk key=a item=b}
+                        <li>
+                            <span class="left">
+                                {if $b.post_image|default:'' != null}
+                                    <img src="{$BASEURL|cat:$b.post_image|default:''}" class="img-fluid" alt="{$b.post_title|default:''}" />
+                                {else}
+                                    <img src="{$BASEURL|cat:('resource/themes/default/img/no-image-available.png')}" class="img-fluid" alt="" />
+                                {/if}                                
+                            </span>
+                            <span class="right">                                
+                                <a class="feed-title" href="{$config->base_url({$b.post_category}|cat:'-':'detail/'|cat:$b.post_id:'/':preg_replace('/[^a-zA-Z0-9-]/i', '', strtolower(str_replace(' ', '-', $b.post_title))))}" title="{$b.post_title|default:''}">{$b.post_title|substr:0:20|cat:'...'|default:''}</a>                                 
+                                <span class="post-date"><i class="ti-calendar"></i>{$b.diff|default:''} Jam yang lalu </span>
+                            </span>
+                        </li>
+                        {/foreach}
+                    </ul>
+                </div>
+                
+                <!-- Tags Cloud -->
+                <!-- <div class="single_widgets widget_tags">
+                    <h4 class="title">Tag Awan</h4>
+                    <ul>
+                        <li><a href="#">Lifestyle</a></li>
+                        <li><a href="#">Travel</a></li>
+                        <li><a href="#">Fashion</a></li>
+                        <li><a href="#">Branding</a></li>
+                        <li><a href="#">Music</a></li>
+                    </ul>
+                </div> -->
+                
+            </div>
+            
+        </div>
+        <!-- /row -->					
+        
+    </div>
+            
+</section>
+<!--  ============================ Blog Detail End ==================================  -->

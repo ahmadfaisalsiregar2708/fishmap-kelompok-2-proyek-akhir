@@ -1,0 +1,89 @@
+<div class="row">
+    <div class="col-xl-11 mx-auto">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title d-flex align-items-center">
+                    <div><i class="bx bx-slider me-1 font-22 text-primary"></i>
+                    </div>
+                    <h5 class="mb-0 text-primary">Ubah Slide</h5>
+                    <a href="{$config->site_url('pengaturan/slide')}" class="ml-auto btn btn-outline-secondary btn-sm"><i class="bx bxs-chevron-left-circle"></i> Kembali</a>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-xl-8">
+                        <form class="row g-3" action="{$config->site_url('pengaturan/slide/edit_process')}" method="post" enctype='multipart/form-data'>
+                            <input type="hidden" name="{$csrf.name|default:''}" value="{$csrf.hash|default:''}" />
+                            <input type="hidden" name="slide_id" value="{$result.slide_id|default:''}"> 
+                            <div class="col-md-12">
+                                <label for="formFile" class="form-label">Unggah Gambar</label>
+                                <div class="alert alert-warning alert-dismissible alert-form fade show">
+                                    <div class="text-dark">Ukuran gambar <b>1400px</b> * <b>400px</b></div>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                                <input type="file" name="slide_img" value="{$result.slide_img|default:''}"
+                                class="form-control" id="image_preview" accept=".jpg, .png, image/jpeg, image/png">  
+                            </div>
+                            <div class="col-lg-12">
+                                <img src="{base_url($result.slide_img|default:'')}" alt=" " id="show_image" height="200px;"> 
+                            </div>
+                            <div class="col-md-12">
+                                <label for="" class="form-label">Nama</label>
+                                <input type="text" name="slide_nm" value="{$result.slide_nm|default:''}"
+                            class="form-control" placeholder="Nama" required>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="" class="form-label">Deskripsi</label>
+                                <textarea type="text" name="slide_desc" class="form-control" id="textarea" rows="8">{$result.slide_desc|default:''}</textarea>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="" class="fomr-label">Slide Stiky</label>
+                                <div class="input-group">
+                                    <select name="slide_stiky" id="inputState" class="form-select">
+                                        <option value="" selected disabled>--Pilih--</option>
+                                        <option value="1" {if {$result.slide_stiky|default:''} eq "1"
+                                            }selected="selected" {/if}>Aktif</option>
+                                        <option value="0" {if {$result.slide_stiky|default:''} eq "0"
+                                            }selected="selected" {/if}>Non Aktif</option>                                    
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="" class="fomr-label">Tautan</label>
+                                <input type="text" name="out_url" value="{$result.out_url|default:''}"
+                        class="form-control" placeholder="https://..">
+                            </div>
+                            <div class="col-12">
+                                <div class="row mt-4">
+                                    <div class="col-8">
+                                        <button type="submit" class="btn btn-primary px-5">Perbarui</button>
+                                    </div>   
+                                    <div class="col-4 d-flex justify-content-end">
+                                        <a href="{$config->site_url('pengaturan/slide/delete_process/'|cat:$result.slide_id|cat:'/'|cat:path)}" onclick="return(confirm('Anda yakin akan menghapus data ini?'))" class="btn btn-outline-danger px-5">Hapus</a>
+                                    </div>   
+                                </div> 
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.tiny.cloud/1/vdqx2klew412up5bcbpwivg1th6nrh3murc6maz8bukgos4v/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+    function readImage(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+        
+            reader.onload = function (e) {
+                $('#show_image').attr('src', e.target.result);
+            }
+        
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#image_preview").change(function(){
+    readImage(this);
+    });
+</script>

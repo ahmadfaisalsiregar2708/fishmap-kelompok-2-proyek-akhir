@@ -1,0 +1,71 @@
+<div class="row">
+  <div class="col-xl-11 mx-auto">
+      <div class="card">
+          <div class="card-body">
+              <div class="card-title d-flex align-items-center">
+                  <div><i class="bx bxs-news me-1 font-22 text-primary"></i>
+                  </div>
+                  <h5 class="mb-0 text-primary">Ubah File Tautan</h5>
+                  <a href="#" onclick="history.back()" class="ml-auto btn btn-outline-secondary btn-sm"><i class="bx bxs-chevron-left-circle"></i> Kembali</a>
+              </div>
+              <hr />
+              <div class="row">
+                  <div class="col-xl-12 mx-auto">
+                      <form class="row g-3" method="post" action="{$config->site_url('pengaturan/popup/edit_file_proccess_layanan')}" enctype='multipart/form-data'>                    
+                          <input type="hidden" name="{$csrf.name|default:''}" value="{$csrf.hash|default:''}"> 
+                          <input type="hidden" name="id" value="{$result.pop_id|default:''}">                                                                                                          
+                          <div class="col-md-6">
+                              <label for="" class="form-label">Nama Tautan</label>
+                              <input type="text" name="name_tautan" value="{$result.name|default:''}"
+                                  class="form-control" placeholder="Judul Tautan">
+                          </div>                            
+                          <div class="col-md-12">
+                              <label for="" class="form-label">Alamat Tautan</label>
+                              <div class="row">
+                                  <div class="col-lg-3">
+                                    <input type="text" name="alamat_tautan" value="{$result.alamat_tautan|default:''}"
+                                    class="form-control" placeholder="https://">                                                                        
+                                  </div>                            
+                              </div>
+                          </div>        
+                          <div class="col-md-12">
+                              <label for="formFile" class="form-label">Icon</label>
+                              <div class="row">
+                                  <div class="col-lg-6">                                
+                                    <input type="file" name="photo" value="{$result.img|default:''}" class="form-control" id="image_preview" accept=".jpg, .png, image/jpeg, image/png">                              
+                                  </div>                            
+                              </div>
+                          </div> 
+                          <div class="col-lg-7">
+                            <img src="{base_url($result.photo|default:'')}" alt=" " id="show_image" height="200px;">                                
+                          </div>
+                          <div class="col-12">
+                              <button type="submit" class="btn btn-primary px-5">Simpan</button>
+                          </div>
+                      </form>      
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<script src="https://cdn.tiny.cloud/1/vdqx2klew412up5bcbpwivg1th6nrh3murc6maz8bukgos4v/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+    function readImage(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+        
+            reader.onload = function (e) {
+                $('#show_image').attr('src', e.target.result);
+            }
+        
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#image_preview").change(function(){
+    readImage(this);
+    });
+</script>
+

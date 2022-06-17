@@ -1,0 +1,183 @@
+        <!--start page wrapper -->
+          <div class="page-content">
+
+              <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4">
+                  <div class="col">
+                      <a href="" onclick="window.open('{$config->site_url('informasi/berita')}')">
+                      <div class="card radius-10">
+                          <div class="card-body">
+                              <div class="d-flex align-items-center">
+                                  <div>
+                                      <p class="mb-0 text-secondary">Total Berita</p>
+                                      <h4 class="my-1">{$berita}</h4>
+                                  </div>
+                                  <div class="widgets-icons bg-light-success text-success ms-auto"><i class="bx bxs-news"></i>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="col">
+                    <a href="" onclick="window.open('{$config->site_url('informasi/artikel')}')">
+                      <div class="card radius-10">
+                          <div class="card-body">
+                              <div class="d-flex align-items-center">
+                                  <div>
+                                      <p class="mb-0 text-secondary">Total Artikel</p>
+                                      <h4 class="my-1">{$artikel}</h4>
+                                  </div>
+                                  <div class="widgets-icons bg-light-info text-info ms-auto"><i class='bx bxs-pen'></i>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="col">
+                    <a href="" onclick="window.open('{$config->site_url('informasi/tim')}')">
+                      <div class="card radius-10">
+                          <div class="card-body">
+                              <div class="d-flex align-items-center">
+                                  <div>
+                                      <p class="mb-0 text-secondary">Total Profil Tim</p>
+                                      <h4 class="my-1">{$tim}</h4>
+                                  </div>
+                                  <div class="widgets-icons bg-light-danger text-danger ms-auto"><i class='bx bx-street-view'></i>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                    </a>
+                  </div>                  
+              </div>
+              <div class="card shadow-none bg-transparent border-bottom border-2">
+                  <div class="card-body">
+                      <div class="row align-items-center">
+                          <div class="col-md-3">
+                              <h4 class="mb-3 mb-md-0">Statistik Pengunjung</h4>
+                          </div>
+                          <div class="col-md-9">
+                              <form class="float-md-end">
+                                  <div class="row row-cols-md-auto g-lg-3">
+                                      <label for="inputFromDate" class="col-md-2 col-form-label text-md-end">Dari Tanggal</label>
+                                      <div class="col-md-4">                                          
+                                          <input type="text" name="" value="" id="inputFromDate"
+                                            class="form-control datepicker" autocomplete="off" placeholder="Dari Tanggal">
+                                      </div>                                                                              
+                                      <label for="inputToDate" class="col-md-2 col-form-label text-md-end">Ke Tanggal</label>
+                                      <div class="col-md-4">                                          
+                                          <input type="text" name="inputToDate" value="" id="inputToDate"
+                                            class="form-control datepicker" autocomplete="off" placeholder="Ke Tanggal">
+                                      </div>
+                                  </div>
+                              </form>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <!-- <div class="card shadow-none bg-transparent">
+                  <div class="card-body">
+                      <div id="chart1"></div>
+                  </div>
+              </div> -->
+              <!--end row-->
+              <div class="row row-cols-1 row-cols-md-2 row-cols-xl-2">
+                  <div class="col">
+                      <div class="card radius-10">
+                          <div class="card-body">
+                              <div class="d-flex align-items-center">
+                                  <h5 class="mb-0 font-weight-bold">Berita yang Terbit</h5>
+                                  <a href="{$config->site_url('informasi/berita/add')}" class="btn btn-sm btn-outline-primary ms-2">Tambah Baru</a>
+                                  <div class="mb-0 ms-auto">
+                                  <a href="{$config->site_url('informasi/berita/index')}" class="btn btn-sm btn-outline-secondary"><i class="fadeIn animated bx bx-list-ul"></i></a>
+                                  </div>
+                              </div>
+                              <div class="table-responsive mt-4">
+                                  <table class="table mb-0">
+                                      <tbody>
+                                        {foreach from=$rs_berita item=result}
+                                          <tr>
+                                              <td class="px-0" width="75%">
+                                                  <a href="{$config->site_url('informasi/berita/edit/'|cat:$result.post_id)}" class="ellipsis">{$result.post_title|default:''}</a>
+                                              </td>
+                                              {if $result.counter}
+                                              <td>{$result.counter} dilihat</td>
+                                              {else}
+                                              <td>0 dilihat</td>
+                                              {/if}
+                                              <td class="px-0 text-right"><a class="title-go" href="{$config->site_url('informasi/berita/edit/'|cat:$result.post_id)}"><i class="fadeIn animated bx bx-chevron-right"></i></a></td>
+                                          </tr>
+                                        {foreachelse}
+                                        <tr>
+                                          <td colspan="10">Data tidak ditemukan.</td>
+                                        </tr>
+                                        {/foreach}
+                                      
+                                        </tbody>
+                                  </table>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  
+                  <div class="col">
+                      <div class="card radius-10">
+                          <div class="card-body">
+                              <div class="d-flex align-items-center">
+                                  <h5 class="mb-0 font-weight-bold">Artikel yang Terbit</h5>
+                                  <a href="{$config->site_url('informasi/artikel/add')}" class="btn btn-sm btn-outline-primary ms-2">Tambah Baru</a>
+                                  <div class="mb-0 ms-auto">
+                                  <a href="{$config->site_url('informasi/artikel/index')}" class="btn btn-sm btn-outline-secondary"><i class="fadeIn animated bx bx-list-ul"></i></a>
+                                  </div>
+                              </div>
+                              <div class="table-responsive mt-4">
+                                  <table class="table mb-0">
+                                      <tbody>
+                                        {foreach from=$rs_artikel item=result}
+                                          <tr>
+                                              <td class="px-0" width="75%">
+                                                  <a href="{$config->site_url('informasi/artikel/edit/'|cat:$result.post_id)}" class="ellipsis">{$result.post_title|default:''}</a>
+                                              </td>
+                                              {if $result.counter}
+                                              <td>{$result.counter} dilihat</td>
+                                              {else}
+                                              <td>0 dilihat</td>
+                                              {/if}
+                                              <td class="px-0 text-right"><a class="title-go" href="{$config->site_url('informasi/berita/edit/'|cat:$result.post_id)}"><i class="fadeIn animated bx bx-chevron-right"></i></a></td>
+                                          </tr>
+                                        {foreachelse}
+                                        <tr>
+                                          <td colspan="10">Data tidak ditemukan.</td>
+                                        </tr>
+                                        {/foreach}
+                                      </tbody>
+                                  </table>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      <!--end page wrapper -->
+      <!--start overlay-->
+      <div class="overlay toggle-icon"></div>
+      <!--end overlay-->
+
+      <script>
+        $(".datepicker").datepicker({
+            format: "yyyy-mm-dd",
+            language: "id",        
+            endDate: "0d",
+            clearBtn: true,
+            todayBtn: true,         
+            autoclose: true //to close picker once year is selected
+        });    
+        $("#inputFromDate").on('changeDate', function(selected) {
+            var startDate = new Date(selected.date.valueOf());
+            $("#inputToDate").datepicker('setStartDate', startDate);
+                if($("#inputFromDate").val() > $("#inputToDate").val()){
+                $("#inputToDate").val($("#inputFromDate").val());
+            }
+        });
+      </script>

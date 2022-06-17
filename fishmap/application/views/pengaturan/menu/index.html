@@ -1,0 +1,165 @@
+<script>
+    const _BASE_URL = '{$BASEURL}';
+    let current_group_id = {$group_id|default:1};
+</script>
+<style>
+    header{
+        background-color: #fff !important;
+        height: 0px;
+    }
+</style>
+
+<div id="row">
+    <div id="col-md-12">
+        <div id="main" class="col-md-9 card">
+            <ul id="menu-group">
+                {foreach from=$menu_groups item=menu}
+                <li id="group-{$menu->id|default:''}" >
+                    <a href="{$config->site_url('pengaturan/menu/menu/'|cat:$menu->id)}">
+                        {$menu->title|default:''}
+                    </a>
+                </li>
+                {/foreach}
+                <li id="add-group"><a href="{$config->site_url('pengaturan/menugroup/add')}" title="Add New Menu" class="btn  btn-default">+</a>
+                </li>
+            </ul>
+            <div class="clear"></div>
+            
+            <form method="post" id="form-menu" action="{$config->site_url('pengaturan/menu/save_position')}">
+                <input type="hidden" name="{$csrf.name|default:''}" value="{$csrf.hash|default:''}" />
+                <div class="ns-row" id="ns-header">
+                    <div class="actions">Actions</div>
+                    <div class="ns-url">URL</div>
+                    <div class="ns-title">Title</div>
+                </div>
+                {$menu_ul|default:''}
+                <div id="ns-footer">
+                    <button type="submit" class="btn btn-default btn-success" id="btn-save-menu">Save
+                        Menu
+                    </button>
+                </div>
+                <br>
+            </form>
+        </div>
+        <aside class="col-md-3 col-12 card">
+            <section class="box">
+                <h2>Info</h2>
+                <div>
+                    <p>Seret list menu untuk menyusun ulang, </p>
+                    </p>
+                    <p>Menambahkan menu menggunakan formulir di bawah ini.</p>
+                </div>
+            </section>
+            <section class="box">
+                <h2>Menu saat ini</h2>
+                <div>
+                    <span id="edit-group-input">{$group_title->title|default:''}</span>
+                    (ID: <b>{$group_id|default:''}</b>)
+                    <div class="edit-group-buttons">
+                        <!-- <a id="edit-group" href="#" title="Edit Menu"><span class="btn btn-primary" style="color: #ffffff">Edit</span></a> -->
+                        {if $group_id gt 1}
+                        <a id="delete-group" href="#"><span class="btn btn-danger" style="color:#ffffff">Delete</span></a>
+                        {/if}
+                    </div>
+                </div>
+            </section>
+            <!-- <section class="box">
+                <h2>Tambah Menu</h2>
+                <div>
+                    <form id="form-add-menu" method="post" action="{$config->site_url('pengaturan/menu/add')}">
+                        <input type="hidden" name="{$csrf.name|default:''}" value="{$csrf.hash|default:''}" />
+                        <div class="form-group">
+                            <label for="menu-title">Judul</label>
+                            <input style="width: 100% !important;" type="text" name="title" required
+                            id="menu-title"
+                            class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="menu-url">URL</label>
+                            <input type="text" name="url" id="menu-url" class="form-control" required
+                            style="width: 100% !important;">
+                        </div>
+                        <p class="buttons">
+                            <input type="hidden" name="group_id" value="{$group_id|default:''}">
+                            <button id="add-menu" type="submit" class="btn btn-success ">Sisipkan Menu
+                            </button>
+                        </p>
+                    </form>
+                </div>
+            </section> -->
+            <section class="box">
+                <h2>Tambah menu</h2>
+                <div>
+                    <form id="form-add-menu" method="post" action="{$config->site_url('pengaturan/menu/add')}">
+                        <input type="hidden" name="{$csrf.name|default:''}" value="{$csrf.hash|default:''}" />
+                        <div class="form-group">
+                            <label for="menu-title">Judul</label>
+                            <input style="width: 100% !important;" type="text" name="title" required
+                            id="menu-title"
+                            class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="menu-url">URL</label>
+                            <!-- <select name="url" id="menu-url" class="form-control pilihan" required style="width: 100% !important;">
+                                <option value=""></option>
+                            </select> -->
+                            <select name="url" id="menu-url" class="form-control pilihan" style="width: 100% !important;">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <p class="buttons">
+                            <input type="hidden" name="group_id" value="{$group_id|default:''}">
+                            <button id="add-menu" type="submit" class="btn btn-success ">Sisipkan Menu
+                            </button>
+                        </p>
+                    </form>
+                </div>
+            </section>
+        </aside>
+        <div class="clear"></div>
+        
+        
+    </div>
+</div>
+<div id="loading">
+    <img src="{$BASEURL}/resource/themes/menu/images/ajax-loader.gif" alt="Loading">
+    Processing...
+</div>
+</div>
+</div>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+<!-- Script -->
+<script type="text/javascript">
+    $(document).ready(function(){
+ 
+       $("select.pilihan").select2({
+          ajax: { 
+                url: '{$config->site_url("pengaturan/menu/getList")}',
+                type: "post",
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                return {
+                    searchTerm: params.term // search term              
+                };
+                },
+                processResults: function (response) {
+                return {
+                    results: response
+                };
+                },
+                cache: true
+            },
+            tags: true,
+            createTag: function (params) {
+                return {
+                id: params.term,
+                text: params.term,
+                newOption: true
+                }
+            }
+      });
+    });
+    </script>

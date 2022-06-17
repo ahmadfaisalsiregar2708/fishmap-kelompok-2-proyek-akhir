@@ -1,0 +1,98 @@
+<div class="row">
+    <div class="col-xl-11 mx-auto">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title d-flex align-items-center">
+                    <div>
+                        <i class="bx bx-album me-1 font-22 text-primary"></i>
+                    </div>
+                    <h5 class="mb-0 text-primary">Edit Album</h5>
+                    <a href="{$config->site_url('galeri/video')}" class="ml-auto btn btn-outline-secondary btn-sm"><i class="bx bxs-chevron-left-circle"></i> Kembali</a>
+                </div>
+                <hr>
+                <form class="row g-3" method="post" action="{$config->site_url('galeri/video/edit_process')}"
+                    enctype='multipart/form-data'>
+                    <input type="hidden" name="{$csrf.name|default:''}" value="{$csrf.hash|default:''}" />
+                    <input type="hidden" name="album_id" value="{$result.album_id|default:''}">
+                    <div class="col-md-6">
+                        <label for="" class="form-label">Judul</label>
+                        <input type="text" name="album_title" value="{$result.album_title|default:''}" class="form-control" placeholder="Judul" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="" class="form-label">Keterangan</label>
+                        <textarea type="text" name="album_note" placeholder="Keterangan.." class="form-control" id="mytextarea"
+                            rows="8">{$result.album_note|default:''}</textarea>
+                    </div>
+                    <div class="col-12">
+                        <div class="row mt-4">
+                            <div class="col-8">
+                                <button type="submit" class="btn btn-primary px-5">Perbarui</button>
+                            </div>   
+                            <div class="col-4 d-flex justify-content-end">
+                                <a href="{$config->site_url('galeri/video/delete_process/'|cat:$result.album_id|cat:'/'|cat:path)}" onclick="return(confirm('Anda yakin akan menghapus data ini?'))" class="btn btn-outline-danger px-5">Hapus</a>
+                            </div>   
+                        </div> 
+                    </div>
+                </form>
+            </div>
+        </div></br>
+        <div class="card">
+            <div class="card-body">               
+                <div class="card-title d-flex align-items-center">
+                    <div>
+                        <i class="bx bx-movie-play me-1 font-22 text-primary"></i>
+                    </div>
+                    <h5 class="mb-0 text-primary">Daftar Video</h5>
+                    &nbsp;                    
+                    <a href="{$config->site_url('galeri/video/add_file/'|cat:$result.album_id)}" class="btn btn-outline-primary btn-sm">Tambah Baru</a>                    
+                </div><hr>                
+                <div>
+                    <p>
+                        <strong>{$pagination.start|default:'0'} - {$pagination.end|default:'0'}</strong> dari <strong>{$pagination.total|default:'0'}</strong> Data
+                    </p>                    
+                    <div class="row row-cols-1 row-cols-md-1 row-cols-xl-3">
+                        {foreach from=$rs_file key=no item=result}  
+                        <div class="col">
+                            <div class="card">
+                                {$code = $result.file_url|replace:'https://www.youtube.com/watch?v=':''}                                
+                                {$path = 'https://i.ytimg.com/vi/'|cat:$code:'/hqdefault.jpg'}                                
+                                <img src="{$path}" class="card-img-top" alt="thumbnail">                                
+                                <div class="card-body">
+                                    <div class="text-center" scope="row">
+                                        <div class="btn-group btn-group-sm order-actions" role="group" aria-label="Basic example"> 
+                                            <a href="{$result.file_url|default:'#'}" target="_blank" class="view"><i class="bx bx-link"></i> </a>
+                                            <a href="{$config->site_url('galeri/video/edit_file/'|cat:$result.file_id)}" class="edit ms-1"><i class="bx bx-edit"></i></a>
+                                            <a href="{$config->site_url('galeri/video/delete_file_process/'|cat:$result.file_id)}" onclick="return(confirm('Anda yakin akan menghapus data ini?'))" class="delete ms-1"><i class="bx bx-trash"></i></a>
+                                        </div>
+                                    </div>     
+                                </div>
+                            </div>
+                        </div>                  
+                        {/foreach}                        
+                    </div>                            
+                    <p>
+                        {$pagination.data|default:''}
+                    </p>
+                </div>
+            </div>
+        </div></br>
+    </div>
+</div>
+
+<script>
+    function readImage(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+        
+            reader.onload = function (e) {
+                $('#show_image').attr('src', e.target.result);
+            }
+        
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#image_preview").change(function(){
+    readImage(this);
+    });
+</script>

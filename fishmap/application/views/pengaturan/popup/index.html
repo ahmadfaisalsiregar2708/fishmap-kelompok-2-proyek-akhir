@@ -1,0 +1,171 @@
+<!-- Start Gambar popup -->
+<div class="row">
+  <div class="col-xl-11 mx-auto">
+      <div class="card">
+          <div class="card-body">
+              <div class="card-title d-flex align-items-center">
+                  <div><i class="bx bxs-info-circle me-1 font-22 text-primary"></i>
+                  </div>
+                  <h5 class="mb-0 text-primary">Setelan Popup</h5>
+                  <div class="ml-auto">
+                      <div class="d-flex">
+                          <span class="pe-2">Tampilkan di Beranda:</span>
+                          <div class="form-check form-switch">
+                            <input type="hidden" name="{$csrf.name|default:''}" value="{$csrf.hash|default:''}" id="token" />
+                            <input class="form-check-input is_active" type="checkbox" data-id="{$rs_id.id}"
+                            data-is_active="{$rs_id.is_active}"
+                            {if $rs_id.is_active eq '1'} checked {/if}>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <hr />
+              <ul class="nav nav-tabs nav-success" role="tablist">
+                  <li class="nav-item" role="presentation">
+                      <a class="nav-link{if $active eq 1 OR $active eq null} active{/if}" href="{$config->site_url('pengaturan/popup/index/'|cat:1)}" role="tab" aria-selected="true">
+                          <div class="d-flex align-items-center">
+                              <div class="tab-icon"><i class="bx bx-windows font-18 me-1"></i>
+                              </div>
+                              <div class="tab-title">Gambar Pop up</div>
+                          </div>
+                      </a>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                      <a class="nav-link {if $active eq 2} active{/if}" href="{$config->site_url('pengaturan/popup/index/'|cat:2)}" role="tab" aria-selected="false">
+                          <div class="d-flex align-items-center">
+                              <div class="tab-icon"><i class="bx bx-user-pin font-18 me-1"></i>
+                              </div>
+                              <div class="tab-title">Setelan Tautan ke Luar</div>
+                          </div>
+                      </a>
+                  </li>
+              </ul>
+              <div class="tab-content" id="pills-tabContent">
+
+                <!-- Start gambar Pop Up -->
+                    {if $active eq 1 OR $active eq null}
+                        <div class="tab-pane fade active show" id="list" role="tabpanel">
+                            <form class="row g-3 mt-4" method="post" action="{$config->site_url('pengaturan/popup/edit_process')}" enctype="multipart/form-data">
+                                <input type="hidden" name="{$csrf.name|default:''}" value="{$csrf.hash|default:''}" />
+                                <input type="hidden" name="id" value="{$rs_id.id|default:''}"> <div class="col-md-12">
+                                    <label for="formFile" class="form-label">Gambar</label>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <input type="file" name="img" value="{$rs_id.img|default:''}" class="form-control" id="image_preview" accept=".jpg, .png, image/jpeg, image/png">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-7">
+                                    <img src="{base_url($rs_id.img|default:'')}" alt=" " id="show_image" height="200px;">                                
+                                </div> 
+                                <div class="col-md-12">
+                                    <label for="" class="form-label">Alamat Tautan</label>
+                                    <div class="col-md-5">
+                                        <input type="text" name="alamat_tautan" value="{$rs_id.alamat_tautan|default:''}" class="form-control" placeholder="https://">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary px-5">Simpan</button>
+                                </div>
+                            </form>
+                        </div>
+                    {/if} 
+                <!-- End Gambar Pop up -->
+                  
+                <!-- Setelan tautan -->
+                    {if $active eq 2}
+                        <div class="tab-pane fade active show" id="settings" role="tabpanel">
+                            <div class="card-search mb-3">
+                                <div class="form-group row mt-4">
+                                    <div class="col-md-9">
+                                        <div class="card-title d-flex align-items-center">
+                                            <a href="{$config->site_url('pengaturan/popup/add_file/'|cat:$rs_id.id|default:'')}" class="btn btn-outline-primary">Tambah Baru</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="page-breadcrumb d-block d-sm-flex align-items-center mb-1">
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th width="50%" scope="col" class="text-left">Nama Tautan</th>
+                                            <th width="20%" scope="col" class="text-left">Icon</th>
+                                            <th width="20%" scope="col" class="text-left">Alamat Tautan</th>
+                                            <th width="10%" scope="col" class="text-left">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {foreach from=$rs_file item=result}
+                                            <tr>
+                                                <td scope="row" class="text-bold">
+                                                    <a href="{$config->site_url('pengaturan/popup/edit_file/'|cat:$result.pop_id|default:'')}">{$result.name|default:''}</a>
+                                                </td>
+                                                <td>
+                                                    <img src="{base_url($result.photo|default:'')}" alt="popup" width="70px">
+                                                </td>
+                                                <td>{$result.alamat_tautan|default:''}</td>
+                                                <td>
+                                                    <div class="d-flex order-actions">
+                                                        <a href="{$config->site_url('pengaturan/popup/edit_file/'|cat:$result.pop_id|default:'')}" class="edit ms-1"><i class="bx bx-edit"></i></a>
+                                                        <a href="{$config->site_url('pengaturan/popup/delete_proccess_layanan/'|cat:$result.pop_id|default:'')}" onclick="return(confirm('Anda yakin akan menghapus data ini?'))" class="delete ms-1"><i class="bx bx-trash"></i></a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        {foreachelse}
+                                            <tr>
+                                                <td colspan="10">Data tidak ditemukan.</td>
+                                            </tr>
+                                        {/foreach}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="page-breadcrumb d-block d-sm-flex align-items-center mt-3">
+                            </div>
+                        </div>
+                    {/if}
+                <!-- End Setelan tautan -->
+                
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<script src="https://cdn.tiny.cloud/1/vdqx2klew412up5bcbpwivg1th6nrh3murc6maz8bukgos4v/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+    function readImage(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+        
+            reader.onload = function (e) {
+                $('#show_image').attr('src', e.target.result);
+            }
+        
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#image_preview").change(function(){
+    readImage(this);
+    });
+</script>
+<script>
+  $(document).ready(function() {
+    $('.is_active').click(function(){
+      $.ajax({
+        type: 'POST',
+        url: '{$config->site_url("pengaturan/popup/status_active")}',
+        data: {
+          'id':$(this).data('id'),
+          'is_active':$(this).data('is_active'),
+          'te_csrf_to_protection':$('#token').val()
+        },
+        success: function(data){
+          let res = JSON.parse(data)
+          $('#token').val(res.csrf)
+        }
+      })
+    })
+  })
+</script>

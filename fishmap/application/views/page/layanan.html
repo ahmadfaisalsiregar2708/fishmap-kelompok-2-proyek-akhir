@@ -1,0 +1,52 @@
+        <!-- ============================ Page Title Start================================== -->
+        <section class="page-title bg-cover" data-overlay="8">
+          <div class="container">
+              <div class="row">
+                  <div class="col-lg-12 col-md-12">
+
+                      <div class="breadcrumbs-wrap">
+                          <h1 class="breadcrumb-title text-light">{$title|default:'Layanan'}</h1>
+                          <nav class="transparent">
+                              <ol class="breadcrumb p-0">
+                                  <li class="breadcrumb-item"><a href="{$BASEURL}" class="text-light">Beranda</a></li>
+                                  <li class="breadcrumb-item active theme-cl" aria-current="page">{$title|default:'Layanan'}</li>
+                              </ol>
+                          </nav>
+                      </div>
+
+                  </div>
+              </div>
+          </div>
+      </section>
+      <!-- ============================ Page Title End ================================== -->
+
+      <!-- ============================ article Start ================================== -->
+      <section class="min">
+          <div class="container">
+
+              <div class="row justify-content-center">
+                  
+                {foreach from=$layanan item=result}
+                <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
+                  <div class="cates_crs_wrip" onclick="window.open('{$result.url}', '_blank')">
+                      <div class="crs_trios">
+                          <div class="crs_cate_icon"><img src="{base_url($result.icon|default:'')}" alt="LAPOR" /></div>
+                          <div class="crs_cate_link"><a href="{$result.url|default:''}" target="_blank">Kunjungi Layanan</a></div>
+                      </div>
+                      <div class="crs_capt_cat">
+                          <h4>{$result.title}</h4>
+                          <p>{strip_tags(htmlspecialchars_decode($result.desc))}</p>
+                      </div>
+                  </div>
+                </div>
+                {foreachelse}
+                <tr>
+                    <td colspan="10">Data tidak ditemukan.</td>
+                </tr>
+                {/foreach}
+              </div>
+
+          </div>
+      </section>
+      <div class="clearfix"></div>
+      <!-- ============================ article End ================================== -->

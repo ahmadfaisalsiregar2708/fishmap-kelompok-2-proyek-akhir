@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="description" content="{$site.meta_desc|default:'google.com'}">
+    <meta name="keywords" content="{$site.meta_keyword|default:'google.com'}">
+    <meta name="author" content="admin">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!--favicon-->
+	<link rel="icon" href="{$pref.site_icon|default:''}" type="image/png" />
+	<title>Login - {$pref.site_title|default:'Beranda'}</title>
+    <!-- themes style -->
+    {$LOAD_STYLE}
+	<link rel="stylesheet" type="text/css" href="{$THEMESPATH}" media="screen" />
+</head>
+
+<body class="bg-login">
+	<!--wrapper-->
+	<div class="wrapper">
+		<div class="d-flex align-items-center justify-content-center my-5 my-lg-0">
+			<div class="container-fluid">
+				<div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3">
+					<div class="col mx-auto">
+						<div class="mb-4 text-center">
+							<img src="assets/images/logo-img.png" width="180" alt="" />
+						</div>
+						<div class="card">
+							<div class="card-body">
+								<div class="border p-4 rounded">									
+									<div class="text-center">
+										<div>
+											<img src="{base_url('resource/doc/images/logo-dashboard.png')}" width="50px" alt="logo icon">					
+										</div>
+										<h4 class="">Fishmap</h4>
+									</div>
+									<div class="login-separater text-center mb-4"> <span>Operator</span>
+										<hr/>
+									</div>
+									<div class="form-body">
+										{include file="$template_content"}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--end row-->
+			</div>
+		</div>
+	</div>
+	<!--end wrapper-->
+
+    <!-- load javascript -->
+    {$LOAD_JAVASCRIPT}
+	<!--Password show & hide js -->
+
+	<script>
+		let element = document.querySelector("#captcha_image img");
+		element.classList.add("img-fluid");
+		element.removeAttribute("width"); 
+		element.removeAttribute("height"); 
+	</script>
+
+	<script>
+		$(document).ready(function () {
+			$("#show_hide_password a").on('click', function (event) {
+				event.preventDefault();
+				if ($('#show_hide_password input').attr("type") == "text") {
+					$('#show_hide_password input').attr('type', 'password');
+					$('#show_hide_password i').addClass("bx-hide");
+					$('#show_hide_password i').removeClass("bx-show");
+				} else if ($('#show_hide_password input').attr("type") == "password") {
+					$('#show_hide_password input').attr('type', 'text');
+					$('#show_hide_password i').removeClass("bx-hide");
+					$('#show_hide_password i').addClass("bx-show");
+				}
+			});
+		});
+	</script>
+</body>
+
+</html>

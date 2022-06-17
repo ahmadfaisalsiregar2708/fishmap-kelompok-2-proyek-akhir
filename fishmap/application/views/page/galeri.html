@@ -1,0 +1,72 @@
+<!-- ============================ Page Title Start================================== -->
+<section class="page-title bg-cover" data-overlay="8">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+
+                <div class="breadcrumbs-wrap">
+                    <h1 class="breadcrumb-title text-light">{$title|default:'Album'}</h1>
+                    <nav class="transparent">
+                        <ol class="breadcrumb p-0">
+                            <li class="breadcrumb-item"><a href="{$BASEURL}" class="text-light">Beranda</a></li>
+                            <li class="breadcrumb-item active theme-cl" aria-current="page">{$title|default:'Album'}</li>
+                        </ol>
+                    </nav>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ============================ Page Title End ================================== -->
+
+<!-- ============================ article Start ================================== -->
+<section class="min">
+    <div class="container">
+
+        <div class="row justify-content-center">
+            {foreach from=$galeri key=a item=b}
+            <!-- Single Grid -->
+            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
+                <div id="gallery-{$b.album_id}" class="crs_grid gallery">
+                    <div class="crs_grid_thumb">
+                        <span class="crs_detail_link">
+                            {if $b.file_path|default:'' != null}
+                                {$path = $BASEURL|cat:$b.file_path|default:''}                            
+                            {else}
+                                {$path = $BASEURL|cat:('resource/themes/default/img/no-image-available.png')}                            
+                            {/if}                            
+                            {if $b.album_type eq 'video'}
+                                {$code = $b.file_url|replace:'https://www.youtube.com/watch?v=':''}                                
+                                {$path = 'https://i.ytimg.com/vi/'|cat:$code:'/hqdefault.jpg'}
+                            {/if}
+                            <img src="{$path}" class="img-fluid rounded" alt="" />
+                        </span>
+                        <div class="crs_images_count"><i class="far fa-images text-success"></i><span>{$b.jumlah|default:'0'} {$tipe|default:'Foto'}</span></div>
+                    </div>
+                    <div class="crs_grid_caption">
+                        <div class="crs_title">
+                            <h4><span class="crs_title_link">{$b.album_title|default:'-'}</span></h4>
+                        </div>
+                    </div>
+                    <div class="crs_grid_foot">
+                        <div class="crs_info_detail">
+                            <ul>                                
+                                <li><i class="fa fa-calendar-alt text-info"></i><span>{if ($b.last_post) != null}{$dtm->get_short_date_indo($b.last_post)}{else}0000-00-00{/if}</span></li>        
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {foreachelse}
+                Tidak ada data.
+            {/foreach}            
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    {$pagination.data|default:''}
+                </div>
+            </div>
+    </div>
+</section>
+
